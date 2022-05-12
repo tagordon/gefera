@@ -26,7 +26,13 @@ Once the repository has downloaded, cd into the main directory and run `meson se
 cd gefera; meson setup builddir
 ``` 
 
-Now cd into the build directory and issue the command `meson compile`. This will produce the shared fortran libraries that gefera is built on. Once the compilation is finished return to the main directory and use pip to install the gefera. 
+Now cd into the build directory and issue the command `meson compile`:
+
+```
+cd builddir; meson compile
+```
+
+This will produce the shared fortran libraries that gefera is built on. Once the compilation is finished return to the main directory and use pip to install the gefera. 
 
 ```
 cd ../; pip install .
@@ -36,9 +42,7 @@ cd ../; pip install .
 
 Gefera has two components: the dynamical model which is used to compute the positions of two bodies at a given time or array of times, and the photometric model which computes the observed flux given the positions of the bodies. Gefera implements two dynamical systems. The first is a `HierarchicalSystem`, which describes an exomoon/exoplanet pair. To instantiate this system let's start by defining the dynamical parameters:
 
-<details><summary>For the planet:</summary>
-<p>
-    
+For the planet:
 
 ```python
 ap = 1.0			# semimajor axis in au
@@ -48,13 +52,8 @@ pp = 365			# period in days
 wp = 0.1 * np.pi / 180		# longitude of periastron in degrees
 ip = 89.8 * np.pi / 180		# inclination in degrees
 ```
-    
-</p>
-</details>
 
-<details><summary>and for the moon:</summary>
-<p>
-    
+and for the moon:    
 
 ```python
 am = 0.02			# semimajor axis of the moon's orbit around the planet in au
@@ -66,9 +65,6 @@ wm = -90 * np.pi / 180		# longitude of periastron in degrees
 im = 90.0 * np.pi / 180		# inclination in degrees
 mm = 0.01			# mass of the moon in units of the mass of the planet
 ```
-    
-</p>
-</details>
 
 We can then instantiate the system as follows: 
 
