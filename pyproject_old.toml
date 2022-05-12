@@ -1,0 +1,21 @@
+[build-system]
+build-backend = 'mesonpy'
+requires = [
+  'meson-python',
+]
+
+[project]
+name = 'gefera'
+version = '0.1'
+description = 'Generate mutual transit light curves'
+authors = [
+  { name = 'Tyler Gordon', email = 'tagordon@uw.edu' },
+]
+requires-python = '>=3.7'
+requires = [
+        "numpy",
+        "matplotlib",
+]
+packages = [
+	'gefera'
+]
