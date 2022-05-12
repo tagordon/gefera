@@ -234,12 +234,11 @@ subroutine flux(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux")
     
     ! used to determine cases for three body overlaps, might not be needed. 
     ! Check if some of these (costheta, cosphi) can be removed when optimizing things later 
-    real*8 :: phi, phi_bpm, phi_bp, phi_bm, phi_theta, d1, d2, delta, a, b, c, tmp
+    real*8 :: phi, phi_bpm, phi_bp, phi_theta, d1, d2, delta, a, b, c, tmp
     
     ! For chain rule stuff
     real*8, dimension(j) :: bm
     real*8, dimension(3) :: dbm, dbm0
-    real*8 :: obm
     
     bm = Sqrt((bp - bpm)**2.d0 + 2 * bp * bpm * (1.d0 - cth))
     dbm0 = 0.d0
@@ -560,8 +559,8 @@ subroutine flux(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux")
         lc(7, i) = lc(7, i) + (lc(1, i) - 1.d0) * pithird * of0
         lc(8, i) = lc(8, i) + (lc(1, i) - 1.d0) * 0.5d0 * pithird * of0
         lc(:, i) = lc(:, i) - f0 * of0
-1   end do
-2   return
+    end do
+    return
     
 end
 
@@ -578,7 +577,6 @@ function Arc(ld, phi1, phi2, r, b, phi1_rp, phi1_rm, phi1_bp, phi1_bpm, phi1_the
     real*8, dimension(3) :: dbm
     real*8 :: phi1_rp, phi1_rm, phi1_bp, phi1_bpm, phi1_theta
     real*8 :: phi2_rp, phi2_rm, phi2_bp, phi2_bpm, phi2_theta
-    real*8 :: const, lin, quad
         
     if (phi1 < 0) then
         if (phi2 > 0) then
@@ -641,7 +639,7 @@ function Fstar(ld, phi, phi_rp, phi_rm, phi_bp, phi_bpm, phi_theta)
 
     real*8 :: phi
     real*8 :: Fc_phi, Fq_phi, Fl_phi
-    real*8 :: phi_bp, phi_rp, phi_bm, phi_rm, phi_bpm, phi_theta
+    real*8 :: phi_bp, phi_rp, phi_rm, phi_bpm, phi_theta
     real*8, dimension(3) :: ld
         
     F_(1) = 0.5 * phi
@@ -701,17 +699,12 @@ function Fcomplete(ld, r, b, dbm, pflag)
     
     ! convenient parameters
     real*8 :: r2, b2, br, bmr, bpr, obmr
-    real*8 :: x, y, ox, ome, o
-    
-    ! components of flux and their derivatives
-    real*8 :: Fc, Fc_r, Fc_b
-    real*8 :: Fq, Fq_r, Fq_b
-    real*8 :: Fl, Fl_r, Fl_b
+    real*8 :: x, ox, o
     
     ! For the integral
-    real*8 :: alpha, beta, gamma, d, n, m
+    real*8 :: alpha, beta, gamma, n, m
     real*8 :: sgn
-    real*8 :: ur, vr, ub, vb, sqomm
+    real*8 :: ur, ub, vb, sqomm
     
     ! Elliptic integrals
     real*8 :: ellippi, ellipe, ellipf
@@ -807,22 +800,21 @@ function F(ld, phi, r, b, phi_rp, phi_rm, phi_bp, phi_bpm, phi_theta, dbm, pflag
     real*8 :: phi, r, b
     
     ! derivatives of input parameters 
-    real*8 :: phi_bp, phi_rp, phi_bm, phi_rm, phi_bpm, phi_theta
+    real*8 :: phi_bp, phi_rp, phi_rm, phi_bpm, phi_theta
     real*8, dimension(3) :: dbm
     
     ! convenient parameters
     real*8 :: sphi, cphi, tphihalf, sphihalf, cphihalf
     real*8 :: r2, b2, br, bmr, bpr, obmr
-    real*8 :: x, y, z, ox, oy, oz, ome, tans, o
+    real*8 :: x, y, z, ox, oy, oz, tans, o
     
     ! components of flux and their derivatives
-    real*8 :: Fc, Fc_phi, Fc_r, Fc_b
-    real*8 :: Fq, Fq_phi, Fq_r, Fq_b
-    real*8 :: Fl, Fl_phi, Fl_r, Fl_b
+    real*8 :: Fc_phi, Fc_r, Fc_b
+    real*8 :: Fq_phi, Fq_r, Fq_b
+    real*8 :: Fl_phi, Fl_r, Fl_b
     
     ! For the integral
     real*8 :: alpha, beta, gamma, d, n, m
-    real*8 :: d_phi
     real*8 :: ur, vr, ub, vb, pr, pb, sqomm
     
     ! Elliptic integrals

@@ -1,5 +1,7 @@
 # gefera
 
+Fast, exact, and differentiable light curves for mutual transits
+
 [Installation](#installation)
 
 [Basic Usage](#installation)

@@ -29,7 +29,7 @@ subroutine phis_ng(rp, rm, bp, bm, bpm, cth, sth, pp1, pp2, pm1, pm2)
     real*8 :: theta, thetam
     
     ! for avoiding divisions
-    real*8 :: denom, obm
+    real*8 :: obm
     
     thetam = Atan2(bp * sth, bpm - bp * cth)
     theta = Atan2(sth, cth)
@@ -172,7 +172,6 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
     
     ! For chain rule stuff
     real*8, dimension(j) :: bm
-    real*8 :: obm
     
     bm = Sqrt((bp - bpm)**2.d0 + 2 * bp * bpm * (1.d0 - cth))
     
@@ -193,21 +192,21 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
             ! moon and planet don't overlap each other 
             if (bp(i) .lt. 1.d0 - rp) then
                 ! planet completely inside star
-                lc(i) = lc(i) - 2 * Fcomplete_ng(ld, rp, bp(i), .TRUE.) * of0
+                lc(i) = lc(i) - 2 * Fcomplete_ng(ld, rp, bp(i)) * of0
             else if (bp(i) .lt. 1.d0 + rp) then
                 ! planet partially overlaps star
                 call kappas_p_ng(rp, bp(i), kp, kps)
                 lc(i) = lc(i) - 2 * (Fstar_ng(ld, kps) &
-                                    + F_ng(ld, kp, rp, bp(i), .TRUE., .TRUE.)) * of0
+                                    + F_ng(ld, kp, rp, bp(i), .TRUE.)) * of0
             end if
             if (bm(i) .lt. 1.d0 - rm) then
                 ! moon completely inside star
-                lc(i) = lc(i) - 2 * Fcomplete_ng(ld, rm, bm(i), .FALSE.) * of0
+                lc(i) = lc(i) - 2 * Fcomplete_ng(ld, rm, bm(i)) * of0
             else if (bm(i) .lt. 1.d0 + rm) then
                 ! moon partially overlaps star
                 call kappas_m_ng(rm, bp(i), bm(i), bpm(i), cth(i), sth(i), km, kms)
                 lc(i) = lc(i) - 2 * (Fstar_ng(ld, kms) &
-                                    + F_ng(ld, km, rm, bm(i), .FALSE., .TRUE.)) * of0
+                                    + F_ng(ld, km, rm, bm(i), .TRUE.)) * of0
             end if
         else
             ! moon and planet do overlap each other 
@@ -219,7 +218,7 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
                     ! moon partially overlaps star, planet does not overlap star
                     call kappas_m_ng(rm, bp(i), bm(i), bpm(i), cth(i), sth(i), km, kms)
                     lc(i) = 2 * (Fstar_ng(ld, pi - kms) &
-                                    - F_ng(ld, km, rm, bm(i), .FALSE., .TRUE.)) * of0
+                                    - F_ng(ld, km, rm, bm(i), .TRUE.)) * of0
 
                 end if
             else
@@ -227,28 +226,28 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
                     ! planet partially overlaps star, moon is outside of star
                     call kappas_p_ng(rp, bp(i), kp, kps)
                     lc(i) = 2 * (Fstar_ng(ld, pi - kps) &
-                                    - F_ng(ld, kp, rp, bp(i), .TRUE., .TRUE.)) * of0
+                                    - F_ng(ld, kp, rp, bp(i), .TRUE.)) * of0
                 else
                     if (bp(i) + rp .le. 1.d0) then
                         if (bm(i) + rm .le. 1.d0) then
                             if (bpm(i) + rm .le. rp) then
                                 ! moon and planet both overlap star, moon is completely overlapped by planet
-                                lc(i) = (f0 - 2 * Fcomplete_ng(ld, rp, bp(i), .TRUE.)) * of0
+                                lc(i) = (f0 - 2 * Fcomplete_ng(ld, rp, bp(i))) * of0
                             else
                                 ! Case E
                                 ! moon and planet both overlap star, moon and planet partially overlap each other 
                                 call phis_ng(rp, rm, bp(i), bm(i), bpm(i), cth(i), sth(i), pp1, pp2, pm1, pm2)
-                                lc(i) = (f0 - Arc_ng(ld, pp1, pp2, rp, bp(i), .TRUE., .FALSE., .FALSE.) &
-                                                - Arc_ng(ld, pm1, pm2, rm, bm(i), .FALSE., .FALSE., .FALSE.)) * of0
+                                lc(i) = (f0 - Arc_ng(ld, pp1, pp2, rp, bp(i), .FALSE., .FALSE.) &
+                                                - Arc_ng(ld, pm1, pm2, rm, bm(i), .FALSE., .FALSE.)) * of0
                             end if
                         else
                             ! planet fully overlaps star, moon partially overlaps star, both overlap each other 
                             call phis_ng(rp, rm, bp(i), bm(i), bpm(i), cth(i), sth(i), pp1, pp2, pm1, pm2)
                             call kappas_m_ng(rm, bp(i), bm(i), bpm(i), cth(i), sth(i), km, kms)
                             lc(i) = (2 * Fstar_ng(ld, pi - kms) &
-                                        - Arc_ng(ld, -km, pm2, rm, bm(i), .FALSE., .TRUE., .FALSE.) &
-                                        - Arc_ng(ld, pm1, km, rm, bm(i), .FALSE., .FALSE., .TRUE.) &
-                                        - Arc_ng(ld, pp1, pp2, rp, bp(i), .TRUE., .FALSE., .FALSE.)) * of0
+                                        - Arc_ng(ld, -km, pm2, rm, bm(i), .TRUE., .FALSE.) &
+                                        - Arc_ng(ld, pm1, km, rm, bm(i), .FALSE., .TRUE.) &
+                                        - Arc_ng(ld, pp1, pp2, rp, bp(i), .FALSE., .FALSE.)) * of0
                         end if
                     else
                         if (bm(i) + rm .le. 1.d0) then 
@@ -256,22 +255,22 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
                                 ! planet partially overlaps star, moon fully overlaps star but is completely overlapped by planet 
                                 call kappas_p_ng(rp, bp(i), kp, kps)
                                 lc(i) = 2 * (Fstar_ng(ld, pi - kps) &
-                                                - F_ng(ld, kp, rp, bp(i), .TRUE., .TRUE.)) * of0
+                                                - F_ng(ld, kp, rp, bp(i), .TRUE.)) * of0
                             else
                                 ! planet partially overlaps star, moon fully overlaps star and only partially overlaps planet
                                 call phis_ng(rp, rm, bp(i), bm(i), bpm(i), cth(i), sth(i), pp1, pp2, pm1, pm2)
                                 call kappas_p_ng(rp, bp(i), kp, kps)
                                 lc(i) = (2 * Fstar_ng(ld, pi - kps) &
-                                            - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .TRUE., .FALSE.) &
-                                            - Arc_ng(ld, pp1, kp, rp, bp(i), .TRUE., .FALSE., .TRUE.) &
-                                            - Arc_ng(ld, pm1, pm2, rm, bm(i), .FALSE., .FALSE., .FALSE.)) * of0
+                                            - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .FALSE.) &
+                                            - Arc_ng(ld, pp1, kp, rp, bp(i), .FALSE., .TRUE.) &
+                                            - Arc_ng(ld, pm1, pm2, rm, bm(i), .FALSE., .FALSE.)) * of0
                             end if
                         else
                             if (bpm(i) + rm .le. rp) then
                                 ! planet and moon both partially overlap star but moon is fully overlapped by the planet
                                 call kappas_p_ng(rp, bp(i), kp, kps)
                                 lc(i) = 2 * (Fstar_ng(ld, pi - kps) &
-                                                - F_ng(ld, kp, rp, bp(i), .TRUE., .TRUE.)) * of0
+                                                - F_ng(ld, kp, rp, bp(i), .TRUE.)) * of0
                             else
                                 call kappas_p_ng(rp, bp(i), kp, kps)
                                 call kappas_m_ng(rm, bp(i), bm(i), bpm(i), cth(i), sth(i), km, kms)
@@ -304,28 +303,28 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
                                             ! planet and moon both partially overlap the star and each other but the 
                                             ! moon-star overlap is contained within the planet-star overlap
                                             lc(i) = 2 * (Fstar_ng(ld, pi - kps) &
-                                                            - F_ng(ld, kp, rp, bp(i), .TRUE., .TRUE.)) * of0
+                                                            - F_ng(ld, kp, rp, bp(i), .TRUE.)) * of0
                                         else
                                             ! planet and moon both partially overlap star and each other but the 
                                             ! moon-star intersections are overlapped by the planet
                                             lc(i) = (2 * Fstar_ng(ld, pi - kps) &
-                                                        - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .TRUE., .FALSE.) &
-                                                        - Arc_ng(ld, pp1, kp, rp, bp(i), .TRUE., .FALSE., .TRUE.) &
-                                                        - Arc_ng(ld, pm1, pm2, rm, bm(i), .FALSE., .FALSE., .FALSE.)) * of0
+                                                        - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .FALSE.) &
+                                                        - Arc_ng(ld, pp1, kp, rp, bp(i), .FALSE., .TRUE.) &
+                                                        - Arc_ng(ld, pm1, pm2, rm, bm(i), .FALSE., .FALSE.)) * of0
                                         end if
                                 else if (phi + kps .le. kms) then
                                     if ((bp(i) - rp) .le. (bm(i) - rm)) then
                                         ! planet and moon both partially overlap the star and each other but the 
                                         ! planet-star intersections are overlapped by the moon
                                         lc(i) = (2 * Fstar_ng(ld, pi - kms) &
-                                                        - Arc_ng(ld, -km, pm2, rm, bm(i), .FALSE., .TRUE., .FALSE.) &
-                                                        - Arc_ng(ld, pm1, km, rm, bm(i), .FALSE., .FALSE., .TRUE.) &
-                                                        - Arc_ng(ld, pp1, pp2, rp, bp(i), .TRUE., .FALSE., .FALSE.)) * of0
+                                                        - Arc_ng(ld, -km, pm2, rm, bm(i), .TRUE., .FALSE.) &
+                                                        - Arc_ng(ld, pm1, km, rm, bm(i), .FALSE., .TRUE.) &
+                                                        - Arc_ng(ld, pp1, pp2, rp, bp(i), .FALSE., .FALSE.)) * of0
                                     else
                                         ! planet and moon both partially overlap the star and each other but 
                                         ! the planet-star overlap is  entirely within the moon-star overlap
                                         lc(i) = 2 * (Fstar_ng(ld, pi - kms) &
-                                                        - F_ng(ld, km, rm, bm(i), .FALSE., .TRUE.)) * of0
+                                                        - F_ng(ld, km, rm, bm(i), .TRUE.)) * of0
                                     end if
                                 else
                                     ! bookmark
@@ -335,23 +334,23 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
                                         ! planet and moon both partially overlap star and each other, 
                                         ! but the planet/moon overlap does not overlap the star
                                         lc(i) = 2 * (Fstar_ng(ld, pi - (kps + kms)) &
-                                                        - F_ng(ld, kp, rp, bp(i), .TRUE., .TRUE.) &
-                                                        - F_ng(ld, km, rm, bm(i), .FALSE., .TRUE.)) * of0
+                                                        - F_ng(ld, kp, rp, bp(i), .TRUE.) &
+                                                        - F_ng(ld, km, rm, bm(i), .TRUE.)) * of0
                                     else if ((d1 .le. 1.d0) .AND. (d2 .le. 1.d0)) then
                                         ! planet and moon both partially overlap star and each other, 
                                         ! with the planet/moon overlap fully overlapping the star
                                         lc(i) = (2 * Fstar_ng(ld, pi - (kps + kms)) &
-                                                        - Arc_ng(ld, -km, -pm1, rm, bm(i), .FALSE., .TRUE., .FALSE.) &
-                                                        - Arc_ng(ld, -pm2, km, rm, bm(i), .FALSE., .FALSE., .TRUE.) &
-                                                        - Arc_ng(ld, pp1, kp, rp, bp(i), .TRUE., .FALSE., .TRUE.) &
-                                                        - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .TRUE., .FALSE.)) * of0
+                                                        - Arc_ng(ld, -km, -pm1, rm, bm(i), .TRUE., .FALSE.) &
+                                                        - Arc_ng(ld, -pm2, km, rm, bm(i), .FALSE., .TRUE.) &
+                                                        - Arc_ng(ld, pp1, kp, rp, bp(i), .FALSE., .TRUE.) &
+                                                        - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .FALSE.)) * of0
                                     else
                                         ! planet and moon both partially overlap star and each other, 
                                         ! with the planet/moon overlap partially overlapping the star
                                         
                                         lc(i) = (2 * Fstar_ng(ld, pi - 0.5 * (kps + kms + phi)) &
-                                                        - Arc_ng(ld, -pm2, km, rm, bm(i), .FALSE., .FALSE., .TRUE.) &
-                                                        - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .TRUE., .FALSE.)) * of0
+                                                        - Arc_ng(ld, -pm2, km, rm, bm(i), .FALSE., .TRUE.) &
+                                                        - Arc_ng(ld, -kp, pp2, rp, bp(i), .TRUE., .FALSE.)) * of0
                                     end if
                                 end if
                             end if
@@ -361,54 +360,53 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
             end if  
         end if
         lc(i) = lc(i) - f0 * of0
-1   end do
+    end do
     return
     
 end
 
 ! work out the right sign and order of the integration and call the integration routine 
 ! to integrate along an arbitrary arc of the planet or moon 
-function Arc_ng(ld, phi1, phi2, r, b, pflag, limbflag1, limbflag2)
+function Arc_ng(ld, phi1, phi2, r, b, limbflag1, limbflag2)
                     
     real*8 :: Arc_ng
 
-    logical :: pflag, limbflag1, limbflag2
+    logical :: limbflag1, limbflag2
     real*8 :: phi1, phi2, r, b
     real*8, dimension(3) :: ld
-    real*8 :: const, lin, quad
         
     if (phi1 < 0) then
         if (phi2 > 0) then
-            Arc_ng = F_ng(ld, phi2, r, b, pflag, limbflag2) &
-                + F_ng(ld, -phi1, r, b, pflag, limbflag1)
+            Arc_ng = F_ng(ld, phi2, r, b, limbflag2) &
+                + F_ng(ld, -phi1, r, b, limbflag1)
             return
         else
             if (phi2 < phi1) then
-                Arc_ng = 2 * Fcomplete_ng(ld, r, b, pflag) &
-                    + F_ng(ld, -phi1, r, b, pflag, limbflag1) &
-                    - F_ng(ld, -phi2, r, b, pflag, limbflag2)
+                Arc_ng = 2 * Fcomplete_ng(ld, r, b) &
+                    + F_ng(ld, -phi1, r, b, limbflag1) &
+                    - F_ng(ld, -phi2, r, b, limbflag2)
                 return
             else
-                Arc_ng = - F_ng(ld, -phi2, r, b, pflag, limbflag2) &
-                      + F_ng(ld, -phi1, r, b, pflag, limbflag1)
+                Arc_ng = - F_ng(ld, -phi2, r, b, limbflag2) &
+                      + F_ng(ld, -phi1, r, b, limbflag1)
                 return
             end if
         end if
     else
         if (phi2 < 0) then
-            Arc_ng = 2 * Fcomplete_ng(ld, r, b, pflag) &
-                - F_ng(ld, phi1, r, b, pflag, limbflag1) &
-                - F_ng(ld, -phi2, r, b, pflag, limbflag2)
+            Arc_ng = 2 * Fcomplete_ng(ld, r, b) &
+                - F_ng(ld, phi1, r, b, limbflag1) &
+                - F_ng(ld, -phi2, r, b, limbflag2)
             return
         else
             if (phi2 < phi1) then
-                Arc_ng = 2 * Fcomplete_ng(ld, r, b, pflag) &
-                    + F_ng(ld, phi2, r, b, pflag, limbflag2) &
-                    - F_ng(ld, phi1, r, b, pflag, limbflag1)
+                Arc_ng = 2 * Fcomplete_ng(ld, r, b) &
+                    + F_ng(ld, phi2, r, b, limbflag2) &
+                    - F_ng(ld, phi1, r, b, limbflag1)
                 return
             else
-                Arc_ng = F_ng(ld, phi2, r, b, pflag, limbflag2) &
-                    - F_ng(ld, phi1, r, b, pflag, limbflag1)
+                Arc_ng = F_ng(ld, phi2, r, b, limbflag2) &
+                    - F_ng(ld, phi1, r, b, limbflag1)
                 return
             end if
         end if
@@ -437,13 +435,10 @@ function Fstar_ng(ld, phi)
 end function
 
 ! integrate around the entire planet/moon 
-function Fcomplete_ng(ld, r, b, pflag)
+function Fcomplete_ng(ld, r, b)
 
     real*8 :: Fcomplete_ng
     real*8, dimension(3) :: F_
-    
-    ! Are we integrating along the edge of the moon or the planet? 
-    logical :: pflag
     
     ! Limb darkening params
     real*8, dimension(3) :: ld
@@ -453,20 +448,16 @@ function Fcomplete_ng(ld, r, b, pflag)
     
     ! convenient parameters
     real*8 :: r2, b2, br, bmr, bpr, obmr
-    real*8 :: x, y, ox, ome, o
-    
-    ! components of flux and their derivatives
-    real*8 :: Fc
-    real*8 :: Fq
-    real*8 :: Fl
+    real*8 :: x, ox, o
+
     
     ! For the integral
-    real*8 :: alpha, beta, gamma, d, n, m
+    real*8 :: alpha, beta, gamma, n, m
     real*8 :: sgn
-    real*8 :: ur, vr, ub, vb, sqomm
+    real*8 :: ur, ub, vb, sqomm
     
     ! Elliptic integrals
-    real*8 :: ellippi, ellipe, ellipf
+    real*8 :: ellippi
     real*8 :: eplusf
     
     r2 = r * r
@@ -479,43 +470,35 @@ function Fcomplete_ng(ld, r, b, pflag)
     F_(1) = r2 * pihalf  
     F_(3) = pihalf * r2 * (b2 + 0.5 * r2) 
     
-    if (ld(2) .eq. 0.d0) then
-        Fl = 0.d0        
+    x = Sqrt((1.d0 - bmr) * (1.d0 + bmr))
+    ox = 1.d0 / x
+            
+    alpha = (7 * r2 + b2 - 4.d0) * o9 * x
+    beta = (r2 * r2 + b2 * b2 + r2 - b2 * (5.d0 + 2 * r2) + 1.d0) * o9 * ox        
+            
+    n = -4 * br * obmr * obmr
+    m = 4 * br * ox * ox
+            
+    ur = 2 * r * x
+    ub = x * ((b + 1.d0) * (b - 1.d0) + r2) / (3 * b)
+    vb = ((-1.d0 + b2)**2.d0 - 2 * (1.d0 + b2) * r2 + r2 * r2) * o3 * ox / b
+            
+    sqomm = Sqrt(1.d0 - m)
+    o = 1.d0
+            
+    if (b .eq. r) then 
+        ellippi = 0.d0
+        sgn = 0.d0
+        gamma = 0.d0
     else
-        x = Sqrt((1.d0 - bmr) * (1.d0 + bmr))
-        ox = 1.d0 / x
+        ellippi = cel((sqomm), (1.d0 - n), (o), (o))
+        sgn = Sign(1.d0, bmr)
+        gamma = bpr * ox * o3 * obmr
+    end if 
+
+    eplusf = cel((sqomm), (o), alpha + beta, beta + alpha * (1.d0 - m))
             
-        alpha = (7 * r2 + b2 - 4.d0) * o9 * x
-        beta = (r2 * r2 + b2 * b2 + r2 - b2 * (5.d0 + 2 * r2) + 1.d0) * o9 * ox        
-            
-        n = -4 * br * obmr * obmr
-        m = 4 * br * ox * ox
-            
-        ur = 2 * r * x
-        ub = x * ((b + 1.d0) * (b - 1.d0) + r2) / (3 * b)
-        vb = ((-1.d0 + b2)**2.d0 - 2 * (1.d0 + b2) * r2 + r2 * r2) * o3 * ox / b
-            
-        sqomm = Sqrt(1.d0 - m)
-        o = 1.d0
-            
-        if (b .eq. r) then 
-            ellippi = 0.d0
-            sgn = 0.d0
-            gamma = 0.d0
-        else
-            ellippi = cel((sqomm), (1.d0 - n), (o), (o))
-            sgn = Sign(1.d0, bmr)
-            gamma = bpr * ox * o3 * obmr
-        end if 
-            
-        !ellipe = cel((sqomm), (o), (o), 1.d0 - m)
-        !ellipf = cel((sqomm), (o), (o), (o))
-             
-        !eplusf = alpha * ellipe + beta * ellipf
-        eplusf = cel((sqomm), (o), alpha + beta, beta + alpha * (1.d0 - m))
-            
-        F_(2) = eplusf + gamma * ellippi + pisixth * (1.d0 - sgn)
-    end if
+    F_(2) = eplusf + gamma * ellippi + pisixth * (1.d0 - sgn)
     
     Fcomplete_ng = Sum(ld * F_)
     return
@@ -523,13 +506,13 @@ function Fcomplete_ng(ld, r, b, pflag)
 end function
 
 ! evaluate the integral at one arbitrary limit along the planet or moon's boundary 
-function F_ng(ld, phi, r, b, pflag, limbflag)
+function F_ng(ld, phi, r, b, limbflag)
 
     real*8 :: F_ng
     real*8, dimension(3) :: F_
     
     ! Are we integrating along the edge of the moon or the planet? 
-    logical :: pflag, limbflag
+    logical :: limbflag
     
     ! Limb darkening params
     real*8, dimension(3) :: ld
@@ -540,19 +523,14 @@ function F_ng(ld, phi, r, b, pflag, limbflag)
     ! convenient parameters
     real*8 :: sphi, cphi, tphihalf, sphihalf, cphihalf
     real*8 :: r2, b2, br, bmr, bpr, obmr
-    real*8 :: x, y, z, ox, oy, oz, ome, tans, o
-    
-    ! components of flux and their derivatives
-    real*8 :: Fc
-    real*8 :: Fq
-    real*8 :: Fl
+    real*8 :: x, y, z, ox, oy, oz, tans, o
     
     ! For the integral
     real*8 :: alpha, beta, gamma, d, n, m
     real*8 :: ur, vr, ub, vb, pr, pb, sqomm
     
     ! Elliptic integrals
-    real*8 :: ellippi, ellipe, ellipf
+    real*8 :: ellippi
     real*8 :: eplusf
     
     r2 = r * r
@@ -569,123 +547,105 @@ function F_ng(ld, phi, r, b, pflag, limbflag)
     tphihalf = sphihalf / cphihalf
     
     if (phi .eq. pi) then
-        F_ng = Fcomplete_ng(ld, r, b, pflag)
+        F_ng = Fcomplete_ng(ld, r, b)
         return
     end if
         
     F_(1) = 0.5 * (r2 * phi - br * sphi)
     F_(3) = 0.25 * (r * (r * (2 * b2 + r2) * phi &
           + b * (-b2 - 3 * r2 + br * cphi) * sphi))
+          
+    y = Sqrt(br)
+    oy = 1.d0 / y
+    x = b2 + r2 - 2 * br * cphi
+    ox = 1.d0 / x
+          
+    pr = - b * sphi * o3 * ox
+    pb = r * sphi * o3 * ox
+                
+    if (bpr .gt. 1.d0) then
         
-    if (ld(2) .eq. 0.d0) then
-        Fl = 0.d0       
-    else          
-        if (bpr .gt. 1.d0) then
-        
-            y = Sqrt(br)
-            oy = 1.d0 / y
-            ox = 1.d0 / (b2 + r2 - 2 * br * cphi)
+        y = Sqrt(br)
+        oy = 1.d0 / y
+        x = b2 + r2 - 2 * br * cphi
+        ox = 1.d0 / x
             
-            alpha = 2 * y * (7 * r2 + b2 - 4.d0) * o9
-            beta = -(3.d0 + 2*r*(b2 * b + 5 * b2 * r + 3*r*(-2.d0 + r2) + b*(-4.d0 + 7*r2))) * o9 * 0.5 * oy
-            gamma = bpr * o3 * 0.5 * oy * obmr
+        alpha = 2 * y * (7 * r2 + b2 - 4.d0) * o9
+        beta = -(3.d0 + 2*r*(b2 * b + 5 * b2 * r + 3*r*(-2.d0 + r2) + b*(-4.d0 + 7*r2))) * o9 * 0.5 * oy
+        gamma = bpr * o3 * 0.5 * oy * obmr
             
-            m = (1.d0 - bmr) * (1.d0 + bmr) * 0.25 * oy * oy
-            n = ((bmr + 1.d0) * (bmr - 1.d0)) * obmr * obmr
-            sqomm = Sqrt(1.d0 - m)
+        m = (1.d0 - bmr) * (1.d0 + bmr) * 0.25 * oy * oy
+        n = ((bmr + 1.d0) * (bmr - 1.d0)) * obmr * obmr
+        sqomm = Sqrt(1.d0 - m)
 
-            ur = 4 * r * y
-            vr = - r * (bpr + 1.d0) * (bpr - 1.d0) * oy
-            ub = 2 * r * (b2 + r2 - 1.d0) * o3 * oy
-            vb = vr * o3
+        ur = 4 * r * y
+        vr = - r * (bpr + 1.d0) * (bpr - 1.d0) * oy
+        ub = 2 * r * (b2 + r2 - 1.d0) * o3 * oy
+        vb = vr * o3
             
-            if (limbflag) then
+        if (limbflag) then
             
-                d = phi * o3 * 0.5 - Atan(bpr * tphihalf * obmr) * o3
+            d = phi * o3 * 0.5 - Atan(bpr * tphihalf * obmr) * o3
                 
-                pr = 0.d0
-                pb = 0.d0
-                
-                o = 1.d0
-                ellippi = cel((sqomm), 1.d0 - n, (o), (o))
-                !ellipe = cel((sqomm), (o), (o), (1.d0 - m))
-                !ellipf = cel((sqomm), (o), (o), (o))
-                
-                !eplusf = alpha * ellipe + beta * ellipf
-                eplusf = cel((sqomm), (o), alpha + beta, beta + alpha * (1.d0 - m))
-            else                
-                z = Sqrt((1.d0 - b) * (1.d0 + b) - r2 + 2 * br * cphi)
-                oz = 1.d0 / z
-                d = o3 * (phi * 0.5 - Atan(bpr * tphihalf * obmr)) &
-                    - (2 * br * o9) * sphi * z
-                    
-                pr = b * sphi * (3.d0 - 4 * b2 + b2 * b2 - r2 * (4.d0 + r2) + 2 * br * (4.d0 - b2 + r2) * cphi) &
-                   / (9 * y * Sqrt(2 * cphi - (b2 + r2 - 1.d0) * oy * oy) * (b2 + r2 - 2 * br * cphi))
-                pb = r * sphi * (-3.d0 + 2 * b2 - b2 * b2 + 2 * r2 + r2 * r2 + 2 * br * (-2.d0 + b2 - r2) * cphi) &
-                   / (9 * y * Sqrt(2 * cphi - (b2 + r2 - 1.d0) * oy * oy) * (b2 + r2 - 2 * br * cphi))
-                                        
-                tans = 1.d0 / Sqrt(m / (sphihalf * sphihalf) - 1.d0)
-                
-                o = 1.d0
-                ellippi = el3((tans), (sqomm), 1.d0 - n)
-                !ellipe = el2((tans), (sqomm), (o), (1.d0 - m))
-                !ellipf = el2((tans), (sqomm), (o), (o))
-                
-                !eplusf = alpha * ellipe + beta * ellipf
-                eplusf = el2((tans), (sqomm), alpha + beta, beta + alpha * (1.d0 - m))
-
-            end if
-            F_(2) = eplusf + gamma * ellippi + d
-            
-        else
-        
-            z = Sqrt((1.d0 - bmr) * (1.d0 + bmr))
-            oz = 1.d0 / z
-            y = Sqrt((1.d0 - b) * (1.d0 + b) - r2 + 2 * br * cphi)
-            oy = 1.d0 / y
-            x = (b2 + r2 - 2 * br * cphi)
-            ox = 1.d0 / x
-            
-            alpha = (7 * r2 + b2 - 4.d0) * z * o9
-            beta = (r2 * r2 + b2 * b2 + r2 - b2 * (5.d0 + 2 * r2) + 1.d0) * o9 * oz
-            gamma = bpr * o3 * oz * obmr
-                        
-            n = -4 * br * obmr * obmr
-            m = 4 * br * oz * oz
-            
-            sqomm = Sqrt(1.d0 - m)
-            
-            ur = 2 * r * z
-            pr = b * sphi * (3.d0 - 4 * b2 + b2 * b2 - r2 * (4.d0 + r2) + 2 * br * (4.d0 - b2 + r2) * cphi) &
-               / (9 * y * (1.d0 - y) * (1.d0 + y))
-                
-            ub = z * ((b + 1.d0) * (b - 1.d0) + r2) / (3 * b)
-            vb = (b2 * b2 + ((r - 1.d0) * (r + 1.d0))**2.d0 - 2 * b2 * (1.d0 + r2)) / (3 * b * z)
-            pb = r * sphi * (-3.d0 + 2 * b2 - b2 * b2 + 2 * r2 + r2 * r2 &
-               + 2 * br * (-2.d0 + b2 - r2) * cphi) * ox * o9 * oy 
-            
-            d = o3 * (phi * 0.5 - Atan(bpr * tphihalf * obmr)) &
-                - 2 * br * o9 * sphi * y
-             
             o = 1.d0
-            !ellipe = el2((tphihalf), (sqomm), (o), (1.d0 - m))
-            !ellipf = el2((tphihalf), (sqomm), (o), (o))
-            
-            if (b .eq. r) then
-                ellippi = 0.d0
-                gamma = 0.d0
-            else
-                ellippi = el3((tphihalf), (sqomm), (1.d0 - n))
-            end if
+            ellippi = cel((sqomm), 1.d0 - n, (o), (o))
+            eplusf = cel((sqomm), (o), alpha + beta, beta + alpha * (1.d0 - m))
+        else                
+            z = Sqrt((1.d0 - b) * (1.d0 + b) - r2 + 2 * br * cphi)
+            oz = 1.d0 / z
+            d = o3 * (phi * 0.5 - Atan(bpr * tphihalf * obmr)) &
+                - (2 * br * o9) * sphi * z
+                    
+            pr = - ((1.d0 - x)**(1.5d0) - 1.d0) * pr
+            pb = (1.d0 - (1.d0 + x) * Sqrt(1.d0 - x)) * pb 
+             
+            tans = 1.d0 / Sqrt(m / (sphihalf * sphihalf) - 1.d0)
                 
-            !eplusf = alpha * ellipe + beta * ellipf
-            eplusf = el2((tphihalf), (sqomm), alpha + beta, beta + alpha * (1.d0 - m))
-            
-            F_(2) = eplusf + gamma * ellippi + d
+            o = 1.d0
+            ellippi = el3((tans), (sqomm), 1.d0 - n)
+            eplusf = el2((tans), (sqomm), alpha + beta, beta + alpha * (1.d0 - m))
+
         end if
+        F_(2) = eplusf + gamma * ellippi + d
+            
+    else
         
+        y = Sqrt((1.d0 - bmr) * (1.d0 + bmr))
+        oy = 1.d0 / y
+            
+        alpha = (7 * r2 + b2 - 4.d0) * y * o9
+        beta = (r2 * r2 + b2 * b2 + r2 - b2 * (5.d0 + 2 * r2) + 1.d0) * o9 * oy
+        gamma = bpr * o3 * oy * obmr
+                        
+        n = -4 * br * obmr * obmr
+        m = 4 * br * oy * oy
+            
+        sqomm = Sqrt(1.d0 - m)
+        
+        pr = - ((1.d0 - x)**(1.5d0) - 1.d0) * pr
+        pb = (1.d0 - (1.d0 + x) * Sqrt(1.d0 - x)) * pb
+            
+        ur = 2 * r * y
+        ub = y * ((b + 1.d0) * (b - 1.d0) + r2) / (3 * b)
+        vb = (b2 * b2 + ((r - 1.d0) * (r + 1.d0))**2.d0 - 2 * b2 * (1.d0 + r2)) / (3 * b * y) 
+            
+        d = o3 * (phi * 0.5 - Atan(bpr * tphihalf * obmr)) &
+            - 2 * br * o9 * sphi * Sqrt(1.d0 - x)
+             
+        o = 1.d0
+            
+        if (b .eq. r) then
+            ellippi = 0.d0
+            gamma = 0.d0
+        else
+            ellippi = el3((tphihalf), (sqomm), (1.d0 - n))
+        end if
+                
+        eplusf = el2((tphihalf), (sqomm), alpha + beta, beta + alpha * (1.d0 - m))
+            
+        F_(2) = eplusf + gamma * ellippi + d
     end if
-    
+            
     F_ng = Sum(ld * F_)
 
     return
