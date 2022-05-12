@@ -84,4 +84,24 @@ If the gradient is required we use
 flux, grad = sys.lightcurve(t, u1, u2, rp, rm, grad=True)
 ```
 
-This will return the gradient of the light curve with respect to each of the input parameters as a dictionary keyed by the name of the parameter. The keys are `a1, t1, e1... a2, t2, e2...` where the `1` parameters are for the larger body and `2` refers to the smaller body.  
+This will return the gradient of the light curve with respect to each of the input parameters as a dictionary keyed by the name of the parameter. The keys are `a1, t1, e1... a2, t2, e2...` where the `1` parameters are for the larger body and `2` refers to the smaller body. 
+
+## the likelihood 
+
+In order to conduct inference using the gefera model we need to compute the likelihood with respect to some observations. If `t` is an array containing the times of the observations and `y` is an array containing flux measurements (normalized to an out-of-transit flux of 1) then we can compute the likelihood for the model as follows:
+
+```python
+ll = sys.loglike(y - 1, t, u1, u2, r1, r2, sigma)
+``` 
+
+where `sigma` is the uncertainty, assumed to be the same for each measurement. If we want to make use of the gradient in our inference then we can call:
+
+```python
+ll, dll = sys.loglike(y - 1, t, u1, u2, r1, r2, sigma, grad=True, sign=-1)
+```
+
+Here `sign=-1` indicates that we want the negative of the log-likelihood and its gradient. If we want the positive log-likelihood and gradient we can omit this argument. The gradient is returned as an array of arrays containing the gradients with respect to each parameter in the order `a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, om2, w2, i2, mm2, r1, r2, u1, u2`. If `func` is a callable function that returns `ll, dll` we can use `scipy.optimize.minimize` to optimize the model as follows:
+
+```python
+res = minimize(fun_jac, x0, jac=True, method='TNC')
+```
