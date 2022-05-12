@@ -1,2 +1,3 @@
-__all__ = ['main', 'SatelliteOrbit', 'PrimaryOrbit', 'HierarchicalSystem', 'ConfocalSystem']
-from .main import SatelliteOrbit, PrimaryOrbit, HierarchicalSystem, ConfocalSystem
+__all__ = ['animate', 'SatelliteOrbit', 'PrimaryOrbit', 'ConfocalOrbit', 'HierarchicalSystem', 'ConfocalSystem']
+from .gefera import SatelliteOrbit, PrimaryOrbit, ConfocalOrbit, HierarchicalSystem, ConfocalSystem
+from .animate import *

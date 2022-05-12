@@ -1,4 +1,4 @@
-module phot
+module phot_nograd
 use iso_c_binding
 use ellip
 
@@ -232,7 +232,7 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
                     if (bp(i) + rp .le. 1.d0) then
                         if (bm(i) + rm .le. 1.d0) then
                             if (bpm(i) + rm .le. rp) then
-                                ! moon and planet both overlap star, moon fully overlapped by planet
+                                ! moon and planet both overlap star, moon is completely overlapped by planet
                                 lc(i) = (f0 - 2 * Fcomplete_ng(ld, rp, bp(i), .TRUE.)) * of0
                             else
                                 ! Case E
@@ -691,4 +691,4 @@ function F_ng(ld, phi, r, b, pflag, limbflag)
     return
 end function
 
-end module phot
+end module phot_nograd
