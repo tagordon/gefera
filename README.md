@@ -4,7 +4,7 @@ Fast, exact, and differentiable light curves for mutual transits
 
 [Installation](#installation)
 
-[Basic Usage](#installation)
+[Basic Usage](#basic-usage)
 
 [The Likelihood](#the-likelihood)
 
