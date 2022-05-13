@@ -4,8 +4,8 @@ from matplotlib import animation
 from timeit import default_timer as timer
 import ctypes
 
-from kep import Kepler
-from phot import flux, flux_ng
+from .kep import Kepler
+from .phot import flux, flux_ng
 
 __all__ = ['PrimaryOrbit', 'SatelliteOrbit', 'ConfocalOrbit']
 
@@ -350,7 +350,7 @@ class System:
                 np.sin(theta)
             )
                     
-    def loglike(self, y, t, u1, u2, r1, r2, sigma, integrate=None, dt=None, grad=False, sign=1):
+    def loglike(self, y, t, u1, u2, r1, r2, sigma, integrate=None, dt=None, grad=False):
         
         """
         Get the log-likelihood of the lightcurve.
@@ -373,11 +373,11 @@ class System:
             ll = -0.5 * np.sum((y - mu) ** 2 / s2 + np.log(s2))
             dldsig = np.sum((y - mu) ** 2 / (s2 * sigma) - 1 / sigma)
             dldx = np.sum((y - mu) * jac / s2, axis=1)
-            return sign * ll, sign * np.hstack([dldsig, dldx])
+            return ll, np.hstack([dldsig, dldx])
         else:
             mu = self.lightcurve(t, u1, u2, r1, r2, integrate=None, dt=None)
             s2 = sigma * sigma
-            return sign * -0.5 * np.sum((y - mu) ** 2 / s2 + np.log(s2))
+            return -0.5 * np.sum((y - mu) ** 2 / s2 + np.log(s2))
 
     def time(self, t, u1, u2, r1, r2, phot_only=False, grad=False, ntimes=1):
         

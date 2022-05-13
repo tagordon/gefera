@@ -1,10 +1,8 @@
 # gefera
 
-Fast, exact, and differentiable light curves for mutual transits
-
 [Installation](#installation)
 
-[Basic Usage](#basic-usage)
+[Basic Usage](#installation)
 
 [The Likelihood](#the-likelihood)
 
@@ -110,10 +108,10 @@ ll = sys.loglike(y - 1, t, u1, u2, r1, r2, sigma)
 where `sigma` is the uncertainty, assumed to be the same for each measurement. If we want to make use of the gradient in our inference then we can call:
 
 ```python
-ll, dll = sys.loglike(y - 1, t, u1, u2, r1, r2, sigma, grad=True, sign=-1)
+ll, dll = sys.loglike(y - 1, t, u1, u2, r1, r2, sigma, grad=True)
 ```
 
-Here `sign=-1` indicates that we want the negative of the log-likelihood and its gradient. If we want the positive log-likelihood and gradient we can omit this argument. The gradient is returned as an array of arrays containing the gradients with respect to each parameter in the order `a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, om2, w2, i2, mm2, r1, r2, u1, u2`. If `func` is a callable function that returns `ll, dll` and `init` is an array of initial parameter guesses in the same order as the gradients are returned then we can use `scipy.optimize.minimize` to optimize the model as follows:
+The gradient is returned as an array of arrays containing the gradients with respect to each parameter in the order `a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, om2, w2, i2, mm2, r1, r2, u1, u2`. If `func` is a callable function that returns `ll, dll` and `init` is an array of initial parameter guesses in the same order as the gradients are returned then we can use `scipy.optimize.minimize` to optimize the model as follows:
 
 ```python
 res = minimize(func, init, jac=True, method='TNC')
