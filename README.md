@@ -8,10 +8,10 @@
 
 ## Installation
 
-Gefera uses the Meson build system to compile the fortran backend. If you haven't used Meson before, you'll need to start by installing it via pip: 
+Gefera uses the [Meson](https://mesonbuild.com/Quick-guide.html) build system to compile the fortran backend. If you haven't used Meson before, you'll need to start by installing [Ninja](https://github.com/ninja-build/ninja/) and then Meson itself via pip: 
 
 ```
-pip install meson
+pip install ninja; pip install meson
 ```
 
 To install gefera begin by cloning the github repository. 
