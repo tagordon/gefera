@@ -21,8 +21,7 @@ jobs:
     steps:
     - name: build gefera
       run: |
-        pwd
-        python -m pip install .
+        python -m pip install ../
 
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
