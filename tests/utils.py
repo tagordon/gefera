@@ -11,49 +11,99 @@ newton = gf.kep.newton
 
 uniform_draw = lambda l, h: np.random.rand() * (h - l) + l
 
-def random_args():
+def random_args_conf(dictionary=True):
     
     keys = [
-        'ab', 
-        'tb', 
-        'eb', 
-        'pb', 
-        'wb', 
-        'ib',      
-        'am', 
-        'tm', 
-        'em', 
-        'pm', 
-        'om', 
-        'wm', 
-        'im', 
-        'mm'
+        'a1', 
+        't1', 
+        'e1', 
+        'p1', 
+        'w1', 
+        'i1',      
+        'a2', 
+        't2', 
+        'e2', 
+        'p2', 
+        'o2', 
+        'w2', 
+        'i2' 
     ]
     
-    ab = uniform_draw(1, 10)
-    tb = uniform_draw(-10, 10)
-    eb = uniform_draw(0, 0.999)
-    pb = uniform_draw(10, 100)
-    wb = uniform_draw(0, np.pi*2)
-    ib = uniform_draw(0, np.pi/2)
+    a1 = uniform_draw(1, 10)
+    t1 = uniform_draw(-10, 10)
+    e1 = uniform_draw(0, 0.999)
+    p1 = uniform_draw(1, 100)
+    w1 = uniform_draw(0, np.pi*2)
+    i1 = uniform_draw(0, np.pi/2)
     
-    am = uniform_draw(0.01, 1)
-    tm = uniform_draw(-10, 10)
-    em = uniform_draw(0, 0.999)
-    pm = uniform_draw(1, 10)
-    om = uniform_draw(0, np.pi*2)
-    wm = uniform_draw(0, np.pi*2)
-    im = uniform_draw(0, np.pi/2)
-    mm = uniform_draw(0, 1)
+    a2 = uniform_draw(1, 10)
+    t2 = uniform_draw(-10, 10)
+    e2 = uniform_draw(0, 0.999)
+    p2 = uniform_draw(1, 100)
+    o2 = uniform_draw(0, np.pi*2)
+    w2 = uniform_draw(0, np.pi*2)
+    i2 = uniform_draw(0, np.pi/2)
     
-    argdict = {
-        k: v for k, v in zip(
-            keys, 
-            (ab, tb, eb, pb, wb, ib, am, tm, em, pm, om, wm, im, mm)
-        )
-    }
+    if dictionary:
+        argdict = {
+            k: v for k, v in zip(
+                keys, 
+                (a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2, m2)
+            )
+        }
     
-    return argdict
+        return argdict
+    
+    else:
+        return a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2, m2
+
+def random_args_hrch(dictionary=True):
+    
+    keys = [
+        'a1', 
+        't1', 
+        'e1', 
+        'p1', 
+        'w1', 
+        'i1',      
+        'a2', 
+        't2', 
+        'e2', 
+        'p2', 
+        'o2', 
+        'w2', 
+        'i2', 
+        'm2'
+    ]
+    
+    a1 = uniform_draw(1, 10)
+    t1 = uniform_draw(-10, 10)
+    e1 = uniform_draw(0, 0.999)
+    p1 = uniform_draw(10, 100)
+    w1 = uniform_draw(0, np.pi*2)
+    i1 = uniform_draw(0, np.pi/2)
+    
+    a2 = uniform_draw(0.01, 1)
+    t2 = uniform_draw(-10, 10)
+    e2 = uniform_draw(0, 0.999)
+    p2 = uniform_draw(1, 10)
+    o2 = uniform_draw(0, np.pi*2)
+    w2 = uniform_draw(0, np.pi*2)
+    i2 = uniform_draw(0, np.pi/2)
+    m2 = uniform_draw(0, 1)
+    
+    if dictionary:
+        argdict = {
+            k: v for k, v in zip(
+                keys, 
+                (a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2, m2)
+            )
+        }
+    
+        return argdict
+    
+    else:
+        return a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2, m2
 
 def gradient(p):
     d = 0.000001

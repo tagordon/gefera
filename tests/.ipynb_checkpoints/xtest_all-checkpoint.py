@@ -4,7 +4,6 @@ import numpy as np
 import utils as tu
 import gefera as gf
 
-coords = gf.kep.Kepler.coords
 flux = gf.phot.flux
 flux_ng = gf.phot.flux_ng
 
