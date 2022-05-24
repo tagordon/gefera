@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-import .utils as tu
+import utils as tu
 import gefera as gf
 
 coords = gf.kep.Kepler.coords
