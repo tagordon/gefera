@@ -1,8 +1,11 @@
 import numpy as np
 from copy import copy
-import gefera as gf
 import ctypes
 from ctypes import byref
+
+import sys
+sys.path.append('../gefera')
+import gefera as gf
 
 impacts = gf.kep.Kepler.impacts
 grad_impacts = gf.kep.Kepler.grad_impacts
