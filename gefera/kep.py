@@ -2,6 +2,13 @@ import numpy as np
 import ctypes
 from ctypes import byref
 
+import os
+import fnmatch
+
+path, _ = os.path.split(__file__)
+libname = fnmatch.filter(os.listdir(path), 'keplib*.so')[0]
+clib = ctypes.CDLL(path + "/" + libname)
+
 __args__ = [
     'a1', 
     't1', 
