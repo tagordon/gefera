@@ -1,4 +1,5 @@
 import pytest
+import numpy as np
 import gefera as gf
 
 RPP = gf.kep.RPP
@@ -19,7 +20,41 @@ def test_solver():
 
 def test_impact_conf():
     
+    d = tu.random_args_conf()
+    o1 = gf.PrimaryOrbit(d['a1'], d['t1'], d['e1'], d['p1'], d['w1'], d['i1'])
+    o2 = gf.ConfocalOrbit(d['a2'], d['t2'], d['e2'], d['p2'], d['o2'], d['w2'], d['i2'])
+    sys = gf.ConfocalSystem(o1, o2)
+    
+    t = np.linspace(0, np.max([d['p1'], d['p2']]), 1000)
+    (x1, y1, z1), (x2, y2, z2) = sys.coords(t)
+    bp, bpm, theta = sys.impacts(t)
+    
+    # check consistency with law of cosines
+    assert np.all(
+        np.isclose(
+            bpm * bpm + bp * bp - 2 * bp * bpm * np.cos(theta),
+            x2 * x2 + y2 * y2
+        )
+    )
+    
 def test_impact_hrch():
+    
+    d = tu.random_args_hrch()
+    o1 = gf.PrimaryOrbit(d['a1'], d['t1'], d['e1'], d['p1'], d['w1'], d['i1'])
+    o2 = gf.SecondaryOrbit(d['a2'], d['t2'], d['e2'], d['p2'], d['o2'], d['w2'], d['i2'], d['m2'])
+    sys = gf.HierarchicalSystem(o1, o2)
+    
+    t = np.linspace(0, np.max([d['p1'], d['p2']]), 1000)
+    (x1, y1, z1), (x2, y2, z2) = sys.coords(t)
+    bp, bpm, theta = sys.impacts(t)
+    
+    # check consistency with law of cosines
+    assert np.all(
+        np.isclose(
+            bpm * bpm + bp * bp - 2 * bp * bpm * np.cos(theta),
+            x2 * x2 + y2 * y2
+        )
+    )
     
 def test_coords_conf():
     
