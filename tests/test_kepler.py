@@ -43,7 +43,7 @@ def test_impact_hrch():
     
     d = tu.random_args_hrch()
     o1 = gf.PrimaryOrbit(d['a1'], d['t1'], d['e1'], d['p1'], d['w1'], d['i1'])
-    o2 = gf.SecondaryOrbit(d['a2'], d['t2'], d['e2'], d['p2'], d['o2'], d['w2'], d['i2'], d['m2'])
+    o2 = gf.SatelliteOrbit(d['a2'], d['t2'], d['e2'], d['p2'], d['o2'], d['w2'], d['i2'], d['m2'])
     sys = gf.HierarchicalSystem(o1, o2)
     
     t = np.linspace(0, np.max([d['p1'], d['p2']]), 1000)

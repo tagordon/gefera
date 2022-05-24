@@ -185,3 +185,35 @@ def flux_numerical(u1, u2, rp, rm, bp, bpm, theta, nn):
     
     occulted = ((dp2 < rp2) | (dm2 < rm2)) & (ds2 < 1)
     return - np.sum(ld(points[occulted])) * dd / norm
+
+def change_coords(xp, yp, xm, ym):
+    
+    bm2 = xm**2 + ym**2
+    bm = np.sqrt(bm2)
+    
+    bp2 = xp**2 + yp**2
+    bp = np.sqrt(bp2)
+    
+    bpm2 = (xm - xp)**2 + (ym - yp)**2
+    bpm = np.sqrt(bpm2)
+
+    a = bp 
+    b = bpm
+    c = bm
+        
+    if a > b:
+        tmp = b
+        b = a
+        a = tmp
+    if b > c:
+        mu = c - (a - b)
+    else:
+        mu = b - (a - c)
+    
+    if bpm == 0 or (a - b + c) < 1e-15:
+        theta = 0.0
+    elif (a - c + b) < 1e-15:
+        theta = np.pi
+    else:
+        theta = 2 * np.arctan(np.sqrt(((a - b) + c) * mu / ((a + (b + c)) * ((a - c) + b))))
+    return bp, bpm, theta
