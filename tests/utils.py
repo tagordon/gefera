@@ -48,14 +48,14 @@ def random_args_conf(dictionary=True):
         argdict = {
             k: v for k, v in zip(
                 keys, 
-                (a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2, m2)
+                (a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2)
             )
         }
     
         return argdict
     
     else:
-        return a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2, m2
+        return a1, t1, e1, p1, w1, i1, a2, t2, e2, p2, o2, w2, i2
 
 def random_args_hrch(dictionary=True):
     
