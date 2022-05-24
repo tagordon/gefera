@@ -11,6 +11,45 @@ real*8, parameter :: if13 = 1.d0 / (6.d0 * 20 * 42 * 72 * 110 * 156), if15 = 1.d
 
 contains
 
+subroutine kepler_solve(M, ecc, cosf, sinf, j) bind(C, name="kepler_solve")
+    integer :: j, i
+    real*8 :: tol, err, x, ecc
+    real (c_double), bind(C), dimension(j) :: M
+    real (c_double), bind(C), dimension(j), intent(out) :: cosf, sinf
+    real*8, dimension(j) :: tanfhalf, tanfhalf2, denom, E, sE, cE
+    
+    if (ecc .lt. 1.d-10) then
+        cE = Cos(M)
+        sE = Sin(M)
+        
+        tanfhalf = sE / (1.d0 + cE)
+        tanfhalf2 = tanfhalf * tanfhalf
+        denom = 1.d0 / (tanfhalf2 + 1.d0)
+         cosf = (1.d0 - tanfhalf2) * denom
+         sinf = 2 * tanfhalf * denom
+     else
+         tol = 1.d-10
+
+         E = M
+         x = Sqrt((1.d0 + ecc) / (1.d0 - ecc))
+        
+        do i=1,j,1
+            err = 1.d0
+            do while (abs(err) .gt. tol)
+                err = - (E(i) - ecc * Sin(E(i)) - M(i)) / (1.d0 - ecc * Cos(E(i)))
+                E(i) = E(i) + err
+            end do
+        end do    
+        
+        cE = Cos(E)
+        tanfhalf = x * Sin(E) / (1.d0 + cE)
+        tanfhalf2 = tanfhalf * tanfhalf
+        denom = 1.d0 / (tanfhalf2 + 1.d0)
+        cosf = (1.d0 - tanfhalf2) * denom
+        sinf = 2 * tanfhalf * denom
+    end if
+end
+
 function sine(x)
 
     real*8 :: sine
