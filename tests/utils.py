@@ -1,14 +1,13 @@
 import numpy as np
 from copy import copy
-import sys
-sys.path.append('../gefera')
-from kep import impacts, grad_impacts
+import gefera as gf
 import ctypes
 from ctypes import byref
-clib = ctypes.CDLL("../fortran/wrapper.so")
 
-clib.kepler_solve.restype = None
-clib.kepler_solve_RPP.restype = None
+impacts = gf.kep.Kepler.impacts
+grad_impacts = gf.kep.Kepler.grad_impacts
+RPP = gf.kep.RPP
+newton = gf.kep.newton
 
 uniform_draw = lambda l, h: np.random.rand() * (h - l) + l
 
@@ -85,19 +84,10 @@ def gradient(p):
 
 def RPP_vs_newton(M, ecc):
     
-    j = len(M)
-    M = byref((ctypes.c_double * j).from_buffer(M))
-    
-    for e in ecc:
-        e = byref(ctypes.c_double(e))
-        cosf_newton = (ctypes.c_double * j).from_buffer(np.zeros(j))
-        sinf_newton = (ctypes.c_double * j).from_buffer(np.zeros(j))
-        cosf_RPP = (ctypes.c_double * j).from_buffer(np.zeros(j))
-        sinf_RPP = (ctypes.c_double * j).from_buffer(np.zeros(j))
-        newton = clib.kepler_solve(M, e, cosf_newton, sinf_newton, byref(ctypes.c_int(j)))
-        RPP = clib.kepler_solve_RPP(M, e, cosf_RPP, sinf_RPP, byref(ctypes.c_int(j)))
-        assert np.all(np.isclose(np.array(sinf_RPP), np.array(sinf_newton), atol=1e-12))
-        assert np.all(np.isclose(np.array(cosf_RPP), np.array(cosf_newton), atol=1e-12))
+    cosf_RPP, sinf_RPP = RPP(M, ecc)
+    cosf_newton, sinf_newton = newton(M, ecc)
+    assert np.all(np.isclose(np.array(sinf_RPP), np.array(sinf_newton), atol=1e-12))
+    assert np.all(np.isclose(np.array(cosf_RPP), np.array(cosf_newton), atol=1e-12))
 
 def flux_numerical(u1, u2, rp, rm, bp, bpm, theta, nn):
     

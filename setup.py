@@ -5,9 +5,26 @@ import pathlib
 HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
-hrchlib = Extension(name = 'gefera.hrchlib', sources = ['fortran/kep.f90', 'fortran/hrch.f90'])
-conflib = Extension(name = 'gefera.conflib', sources = ['fortran/kep.f90', 'fortran/conf.f90'])
-photlib = Extension(name = 'gefera.photlib', sources = ['fortran/ellip.f90', 'fortran/phot_nograd.f90', 'fortran/phot.f90'])
+keplib = Extension(name = 'gefera.keplib',
+                   sources = ['fortran/kep.f90']
+                  )
+
+hrchlib = Extension(name = 'gefera.hrchlib', 
+                    sources = ['fortran/kep.f90', 
+                               'fortran/hrch.f90'
+                              ]
+                   )
+conflib = Extension(name = 'gefera.conflib', 
+                    sources = ['fortran/kep.f90', 
+                               'fortran/conf.f90'
+                              ]
+                   )
+photlib = Extension(name = 'gefera.photlib', 
+                    sources = ['fortran/ellip.f90', 
+                               'fortran/phot_nograd.f90',
+                               'fortran/phot.f90'
+                              ]
+                   )
 
 setup(name='gefera', 
       version='0.1',
@@ -21,7 +38,12 @@ setup(name='gefera',
       packages=['gefera'],
       install_requires=['numpy',
                         'scipy',
-			'astropy'],
+                        'astropy'
+                       ],
       zip_safe=True,
-      ext_modules = [hrchlib, conflib, photlib]
+      ext_modules = [hrchlib, 
+                     conflib, 
+                     photlib,
+                     keplib
+                    ]
       )

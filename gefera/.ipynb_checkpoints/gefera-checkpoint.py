@@ -13,8 +13,6 @@ __all__ = ['PrimaryOrbit', 'SatelliteOrbit', 'ConfocalOrbit']
 
 au_r = 215.03215567054764
 
-#conflib = ctypes.CDLL("../builddir/conf.so")
-#hrchlib = ctypes.CDLL("../builddir/hrch.so")
 path, _ = os.path.split(__file__)
 libname = fnmatch.filter(os.listdir(path), 'conf*.so')[0]
 conflib = ctypes.CDLL(path + "/" + libname)

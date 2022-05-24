@@ -42,6 +42,30 @@ def validate_elements(argdict, arglist):
             "required parameters are: ", 
             arglist
         )
+        
+def RPP(M, ecc):
+    
+    j = len(M)
+    M = byref((ctypes.c_double * j).from_buffer(M))
+    
+    for e in ecc:
+        e = byref(ctypes.c_double(e))
+        cosf = (ctypes.c_double * j).from_buffer(np.zeros(j))
+        sinf = (ctypes.c_double * j).from_buffer(np.zeros(j))
+        RPP = clib.kepler_solve_RPP(M, e, cosf, sinf, byref(ctypes.c_int(j)))
+        return np.array(cosf), np.array(sinf)
+    
+def newton(M, ecc):
+    
+    j = len(M)
+    M = byref((ctypes.c_double * j).from_buffer(M))
+    
+    for e in ecc:
+        e = byref(ctypes.c_double(e))
+        cosf = (ctypes.c_double * j).from_buffer(np.zeros(j))
+        sinf = (ctypes.c_double * j).from_buffer(np.zeros(j))
+        newton = clib.kepler_solve(M, e, cosf, sinf, byref(ctypes.c_int(j)))
+        return np.array(cosf), np.array(sinf)
 
 class Kepler:
     
