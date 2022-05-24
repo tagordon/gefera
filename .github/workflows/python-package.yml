@@ -21,7 +21,8 @@ jobs:
     steps:
     - name: build gefera
       run: |
-        pwd
+        ls
+        ls ../
         python -m pip install .
 
     - uses: actions/checkout@v3
