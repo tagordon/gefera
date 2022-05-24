@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 from timeit import default_timer as timer
 import ctypes
+import os
+import fnmatch
 
 from .kep import Kepler
 from .phot import flux, flux_ng
@@ -11,8 +13,13 @@ __all__ = ['PrimaryOrbit', 'SatelliteOrbit', 'ConfocalOrbit']
 
 au_r = 215.03215567054764
 
-conflib = ctypes.CDLL("../builddir/conf.so")
-hrchlib = ctypes.CDLL("../builddir/hrch.so")
+#conflib = ctypes.CDLL("../builddir/conf.so")
+#hrchlib = ctypes.CDLL("../builddir/hrch.so")
+path, _ = os.path.split(__file__)
+libname = fnmatch.filter(os.listdir(path), 'conf*.so')[0]
+conflib = ctypes.CDLL(path + "/" + libname)
+libname = fnmatch.filter(os.listdir(path), 'hrch*.so')[0]
+hrchlib = ctypes.CDLL(path + "/" + libname)
 
 confargs = [
     'a1', 

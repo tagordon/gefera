@@ -1,7 +1,14 @@
 import numpy as np
 import ctypes
 from ctypes import byref
-clib = ctypes.CDLL("../builddir/phot.so")
+import os
+import fnmatch
+
+path, _ = os.path.split(__file__)
+libname = fnmatch.filter(os.listdir(path), 'photlib*.so')[0]
+clib = ctypes.CDLL(path + "/" + libname)
+
+#clib = ctypes.CDLL("../builddir/phot.so")
 
 def flux(c1, c2, rp, rm, bp, bpm, cth, sth):
     
