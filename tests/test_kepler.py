@@ -2,6 +2,8 @@ import pytest
 import numpy as np
 import gefera as gf
 
+import utils as tu
+
 RPP = gf.kep.RPP
 newton = gf.kep.newton
 
