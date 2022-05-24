@@ -57,9 +57,13 @@ def test_impact_hrch():
     )
     
 def test_coords_conf():
+    pass
     
 def test_coords_hrch():
+    pass
     
 def test_grad_conf():
+    pass
     
 def test_grad_hrch():
+    pass
