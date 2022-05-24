@@ -2,7 +2,7 @@
 
 [Installation](#installation)
 
-[Basic Usage](#installation)
+[Basic Usage](#basic-usage)
 
 [The Likelihood](#the-likelihood)
 
