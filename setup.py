@@ -11,10 +11,10 @@ photlib = Extension(name = 'gefera.photlib', sources = ['fortran/ellip.f90', 'fo
 
 setup(name='gefera', 
       version='0.1',
-      description='Gaussian processes for multi-wavelength and spectral observations',
+      description='Light curves for mutual transits of limb-darkened stars',
       long_description=README,
       long_description_content_type="text/markdown",
-      url='http://github.com/tagordon/specgp',
+      url='http://github.com/tagordon/gefera',
       author='Tyler Gordon',
       author_email='tagordon@uw.edu', 
       license='MIT',
