@@ -4,7 +4,8 @@ import numpy as np
 import utils as tu
 import gefera as gf
 
-
+flux = gf.phot.flux
+flux_ng = gf.phot.flux_ng
 
 def test_flux():
     
