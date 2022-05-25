@@ -197,8 +197,8 @@ subroutine grad_coords(t, ap, t0p, ep, Pp, wp, ip, am, &
     dxp(:, 8) = (- r_t0 * ccmss - r * f_M * nm * cspsc) * mrm
     dxp(:, 9) = (- r_e * ccmss + r * f_e * cspsc) * mrm
     dxp(:, 10) = (- r_Pm * ccmss + r * f_M * (t - t0m) * nm_Pm * cspsc) * mrm
-    dxp(:, 11) = r * cspsc * mrm
-    dxp(:, 12) = r * scpcs * mrm
+    dxp(:, 11) = r * scpcs * mrm
+    dxp(:, 12) = r * cspsc * mrm
     dxp(:, 13) = -r * somegam * sinfw * sim * mrm
     dxp(:, 14) = x * mrm_mm
     
@@ -208,8 +208,8 @@ subroutine grad_coords(t, ap, t0p, ep, Pp, wp, ip, am, &
     dyp(:, 8) = (- r_t0 * scpcs - r * f_M * nm * ssmcc) * mrm
     dyp(:, 9) = (- r_e * scpcs + r * f_e * ssmcc) * mrm
     dyp(:, 10) = (- r_Pm * scpcs + r * f_M * (t - t0m) * nm_Pm * ssmcc) * mrm
-    dyp(:, 11) = r * ssmcc * mrm
-    dyp(:, 12) = - r * ccmss * mrm
+    dyp(:, 11) = -r * ccmss * mrm
+    dyp(:, 12) = r * ssmcc * mrm
     dyp(:, 13) = r * comegam * sinfw * sim * mrm
     dyp(:, 14) = y * mrm_mm
 

@@ -184,16 +184,16 @@ subroutine grad_coords(t, ap, t0p, ep, Pp, wp, ip, am, &
     dxm(:, 8) = - r_t0 * ccmss - r * f_M * nm * cspsc
     dxm(:, 9) = - r_e * ccmss + r * f_e * cspsc
     dxm(:, 10) = - r_Pm * ccmss + r * f_M * (t - t0m) * nm_Pm * cspsc
-    dxm(:, 11) = r * cspsc
-    dxm(:, 12) = r * scpcs
+    dxm(:, 11) = r * scpcs
+    dxm(:, 12) = r * cspsc
     dxm(:, 13) = -r * somegam * sinfw * sim
     
     dym(:, 7) = - r * scpcs / am
     dym(:, 8) = - r_t0 * scpcs - r * f_M * nm * ssmcc
     dym(:, 9) = - r_e * scpcs + r * f_e * ssmcc
     dym(:, 10) = - r_Pm * scpcs + r * f_M * (t - t0m) * nm_Pm * ssmcc
-    dym(:, 11) = r * ssmcc
-    dym(:, 12) = -r * ccmss
+    dym(:, 11) = -r * ccmss
+    dym(:, 12) = r * ssmcc
     dym(:, 13) = r * comegam * sinfw * sim
     
 end
