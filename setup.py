@@ -6,24 +6,44 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 keplib = Extension(name = 'gefera.keplib',
-                   sources = ['fortran/kep.f90']
+                   sources = ['fortran/kep.f90'],
+                   extra_f90_compile_args = [
+                       '-Ofast', 
+                       '-unroll=12',
+                       '-fmax-stack-var-size=100000'   
+                   ]
                   )
 
 hrchlib = Extension(name = 'gefera.hrchlib', 
-                    sources = ['fortran/kep.f90', 
-                               'fortran/hrch.f90'
-                              ]
-                   )
+                     sources = ['fortran/kep.f90', 
+                               'fortran/hrch.f90',
+                              ],
+                     extra_f90_compile_args = [
+                         '-Ofast', 
+                         '-unroll=12',
+                         '-fmax-stack-var-size=100000'
+                     ]
+                    )
 conflib = Extension(name = 'gefera.conflib', 
                     sources = ['fortran/kep.f90', 
                                'fortran/conf.f90'
-                              ]
+                              ],
+                    extra_f90_compile_args = [
+                        '-Ofast', 
+                        '-unroll=12',
+                        '-fmax-stack-var-size=100000'
+                    ]
                    )
 photlib = Extension(name = 'gefera.photlib', 
                     sources = ['fortran/ellip.f90', 
                                'fortran/phot_nograd.f90',
                                'fortran/phot.f90'
-                              ]
+                              ],
+                    extra_f90_compile_args = [
+                        '-Ofast', 
+                        '-unroll=12',
+                        '-fmax-stack-var-size=100000'
+                    ]
                    )
 
 setup(name='gefera', 
