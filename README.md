@@ -1,4 +1,4 @@
-![tests](https://github.com/tagordon/gefera/actions/workflows/python-package.yml/badge.svg)
+![tests](https://github.com/tagordon/gefera/actions/workflows/tests.yml/badge.svg)
 
 # gefera
 
