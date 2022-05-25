@@ -75,7 +75,7 @@ We can then compute the light curve:
 flux = sys.lightcurve(t, u1, u2, rp, rm)
 ```
 When plotted, the lightcurve for this system looks like this:
-![exomoon lightcurve](https://github.com/tagordon/gefera/notebooks/readme_plot.png)
+![exomoon lightcurve](https://github.com/tagordon/gefera/blob/master/notebooks/readme_plot.png)
 
 If the gradient is required we use
 
