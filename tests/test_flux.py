@@ -88,3 +88,4 @@ def test_flux_ng():
             u1, u2, rp, rm, bp, bpm, theta, 500000
         )
         assert np.isclose(numerical, analytic, atol=1e-4)
+        
