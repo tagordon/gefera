@@ -60,12 +60,6 @@ def test_impact_hrch():
         )
     )
     
-def test_coords_conf():
-    pass
-    
-def test_coords_hrch():
-    pass
-    
 def test_grad_conf():
     d = np.array(tu.random_args_conf(dictionary=False))
     t = np.linspace(0, np.max([d[3], d[9]]), 10)

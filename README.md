@@ -1,3 +1,5 @@
+![tests](https://github.com/tagordon/gefera/actions/workflows/python-package.yml/badge.svg)
+
 # gefera
 
 [Installation](#installation)
