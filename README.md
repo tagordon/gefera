@@ -53,6 +53,8 @@ mm = 0.01			# mass of the moon in units of the mass of the planet
 We can then instantiate the system as follows: 
 
 ```python
+import gefera as gf
+
 po = gf.PrimaryOrbit(ap, tp, ep, pp, wp, ip)
 mo = gf.SatelliteOrbit(am, tm, em, pm, om, wm, im, mm)
 sys = gf.HierarchicalSystem(po, mo)
@@ -72,6 +74,8 @@ We can then compute the light curve:
 ```python
 flux = sys.lightcurve(t, u1, u2, rp, rm)
 ```
+When plotted, the lightcurve for this system looks like this:
+![exomoon lightcurve](https://github.com/tagordon/gefera/notebooks/readme_plot.png)
 
 If the gradient is required we use
 
