@@ -72,6 +72,7 @@ u2 = 0.3
 We can then compute the light curve:
 
 ```python
+t = np.linspace(-0.6, 0.3, 10000)
 flux = sys.lightcurve(t, u1, u2, rp, rm)
 ```
 When plotted, the lightcurve for this system looks like this:
