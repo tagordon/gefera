@@ -215,7 +215,7 @@ subroutine grad_coords(t, ap, t0p, ep, Pp, wp, ip, am, &
 
     xm = xbc + x * mrp
 
-    dxm(:, 7) = x_a * mrm
+    dxm(:, 7) = x_a * mrp
     dxm(:, 8) = -dxp(:, 8) * mp
     dxm(:, 9) = -dxp(:, 9) * mp
     dxm(:, 10) = -dxp(:, 10) * mp

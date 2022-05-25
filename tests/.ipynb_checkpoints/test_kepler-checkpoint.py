@@ -103,4 +103,37 @@ def test_grad_conf():
         assert np.all(np.isclose(dtheta[i], dtheta_fd[i], atol=1e-3))
     
 def test_grad_hrch():
-    pass
+    d = np.array(tu.random_args_hrch(dictionary=False))
+    t = np.linspace(0, np.max([d[3], d[9]]), 10)
+    dx = 1e-8
+
+    o1 = gf.PrimaryOrbit(d[0], d[1], d[2], d[3], d[4], d[5])
+    o2 = gf.SatelliteOrbit(d[6], d[7], d[8], d[9], d[10], d[11], d[12], d[13])
+    sys = gf.HierarchicalSystem(o1, o2)
+
+    bp, bpm, theta, dbp, dbpm, dtheta = sys.impacts(t, grad=True)
+    dbp_fd = np.zeros_like(dbp)
+    dbpm_fd = np.zeros_like(dbpm)
+    dtheta_fd = np.zeros_like(dtheta)
+
+    for i in range(len(d)):
+        d[i] += dx
+        o1 = gf.PrimaryOrbit(d[0], d[1], d[2], d[3], d[4], d[5])
+        o2 = gf.SatelliteOrbit(d[6], d[7], d[8], d[9], d[10], d[11], d[12], d[13])
+        sys_plus = gf.HierarchicalSystem(o1, o2)
+    
+        d[i] -= 2 * dx
+        o1 = gf.PrimaryOrbit(d[0], d[1], d[2], d[3], d[4], d[5])
+        o2 = gf.SatelliteOrbit(d[6], d[7], d[8], d[9], d[10], d[11], d[12], d[13])
+        sys_minus = gf.HierarchicalSystem(o1, o2)
+    
+        bp_plus, bpm_plus, theta_plus = sys_plus.impacts(t)
+        bp_minus, bpm_minus, theta_minus = sys_minus.impacts(t)
+    
+        dbp_fd[i, :] = (bp_plus - bp_minus) / (2 * dx)
+        dbpm_fd[i, :] = (bpm_plus - bpm_minus) / (2 * dx)
+        dtheta_fd[i, :] = (theta_plus - theta_minus) / (2 * dx)
+    
+    assert np.all(np.isclose(dbp[i], dbp_fd[i], atol=1e-3))
+    assert np.all(np.isclose(dbpm[i], dbpm_fd[i], atol=1e-3))
+    assert np.all(np.isclose(dtheta[i], dtheta_fd[i], atol=1e-3))
