@@ -187,8 +187,12 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
     do i=1,j,1
     
         lc(i) = f0 * of0
-    
-        if (bpm(i) .gt. rp + rm) then
+        
+        if (rp .gt. 1.d0 + bp(i)) then
+            lc(i) = 0.d0
+        else if (rm .gt. 1.d0 + bm(i)) then 
+            lc(i) = 0.d0
+        else if (bpm(i) .gt. rp + rm) then
             ! moon and planet don't overlap each other 
             if (bp(i) .lt. 1.d0 - rp) then
                 ! planet completely inside star
@@ -293,13 +297,18 @@ subroutine flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux_
                                     b = a
                                     a = tmp
                                 end if
-                                delta = Sqrt((a + (b + c)) * (c - (a - b)) * (c + (a - b)) * (a + (b - c)))
-                                phi = Atan2(delta, (bm(i) - bpm(i)) * (bm(i) + bpm(i)) + bp(i) * bp(i))                                
+                                delta = (a + (b + c)) * (c - (a - b)) * (c + (a - b)) * (a + (b - c))
+                                if (delta .lt. 0.d0) then
+                                    delta = 0.d0
+                                else
+                                    delta = Sqrt(delta)
+                                end if
+                                phi = Atan2(delta, (bm(i) - bpm(i)) * (bm(i) + bpm(i)) + bp(i) * bp(i)) 
                                 
                                 call phis_ng(rp, rm, bp(i), bm(i), bpm(i), cth(i), sth(i), pp1, pp2, pm1, pm2)
                                 
-                                if (phi + kms .le. kps) then  
-                                        if (pp2 .gt. kp) then
+                                if (phi + kms .le. kps) then 
+                                        if (abs(pp2) .gt. kp) then
                                             ! planet and moon both partially overlap the star and each other but the 
                                             ! moon-star overlap is contained within the planet-star overlap
                                             lc(i) = 2 * (Fstar_ng(ld, pi - kps) &

@@ -35,7 +35,8 @@ def test_impact_conf():
     assert np.all(
         np.isclose(
             bpm * bpm + bp * bp - 2 * bp * bpm * np.cos(theta),
-            x2 * x2 + y2 * y2
+            x2 * x2 + y2 * y2,
+            atol=1e-10
         )
     )
     
@@ -54,7 +55,8 @@ def test_impact_hrch():
     assert np.all(
         np.isclose(
             bpm * bpm + bp * bp - 2 * bp * bpm * np.cos(theta),
-            x2 * x2 + y2 * y2
+            x2 * x2 + y2 * y2,
+            atol=1e-10
         )
     )
     

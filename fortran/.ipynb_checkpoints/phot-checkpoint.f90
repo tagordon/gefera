@@ -462,7 +462,6 @@ subroutine flux(c1, c2, rp, rm, bp, bpm, cth, sth, lc, j) bind(C, name="flux")
                                         end if
     
                                 else if (phi + kps .le. kms) then
-                                
                                     call bm_x(bp(i), bm(i), bpm(i), cth(i), sth(i), dbm)
                                     if ((bp(i) - rp) .le. (bm(i) - rm)) then
                                         ! Case L
