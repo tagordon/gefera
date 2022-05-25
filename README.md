@@ -76,7 +76,8 @@ t = np.linspace(-0.6, 0.3, 10000)
 flux = sys.lightcurve(t, u1, u2, rp, rm)
 ```
 When plotted, the lightcurve for this system looks like this:
-![exomoon lightcurve](https://github.com/tagordon/gefera/blob/master/notebooks/readme_plot.png)
+![exomoon lightcurve](https://github.com/tagordon/gefera/blob/master/notebooks/readme_plot_light.png#gh-light-mode-only)
+![exomoon lightcurve](https://github.com/tagordon/gefera/blob/master/notebooks/readme_plot_dark.png#gh-dark-mode-only)
 
 If the gradient is required we use
 
