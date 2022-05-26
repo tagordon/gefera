@@ -29,14 +29,14 @@ def random_args_conf(dictionary=True):
         'i2' 
     ]
     
-    a1 = uniform_draw(1, 10)
+    a1 = uniform_draw(1, 500)
     t1 = uniform_draw(-10, 10)
     e1 = uniform_draw(0, 0.999)
     p1 = uniform_draw(1, 100)
     w1 = uniform_draw(0, np.pi*2)
     i1 = uniform_draw(0, np.pi/2)
     
-    a2 = uniform_draw(1, 10)
+    a2 = uniform_draw(1, 500)
     t2 = uniform_draw(-10, 10)
     e2 = uniform_draw(0, 0.999)
     p2 = uniform_draw(1, 100)
@@ -76,14 +76,14 @@ def random_args_hrch(dictionary=True):
         'm2'
     ]
     
-    a1 = uniform_draw(1, 10)
+    a1 = uniform_draw(1, 500)
     t1 = uniform_draw(-10, 10)
     e1 = uniform_draw(0, 0.999)
     p1 = uniform_draw(10, 100)
     w1 = uniform_draw(0, np.pi*2)
     i1 = uniform_draw(0, np.pi/2)
     
-    a2 = uniform_draw(0.01, 1)
+    a2 = uniform_draw(0.1, 20)
     t2 = uniform_draw(-10, 10)
     e2 = uniform_draw(0, 0.999)
     p2 = uniform_draw(1, 10)

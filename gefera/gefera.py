@@ -179,8 +179,8 @@ class System:
         """
         
         x1, y1, z1, x2, y2, z2 = self.kep.coords(t, self.pdict)
-        return ((x1 * au_r, y1 * au_r, z1 * au_r), 
-                (x2 * au_r, y2 * au_r, z2 * au_r))
+        return ((x1, y1, z1), 
+                (x2, y2, z2))
     
     def impacts(self, t, grad=False):
         

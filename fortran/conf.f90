@@ -285,10 +285,10 @@ subroutine grad_impacts(t, ap, t0p, ep, Pp, wp, ip, am, &
                      + theta_bpm * dbpm(:, i)
     end do
 
-    bp = bp * au_rsun
-    bpm = bpm * au_rsun
-    dbp = dbp * au_rsun
-    dbpm = dbpm * au_rsun
+    bp = bp
+    bpm = bpm
+    dbp = dbp
+    dbpm = dbpm
             
 end
 
@@ -343,8 +343,8 @@ subroutine impacts(t, ap, t0p, ep, Pp, wp, ip, am, &
         end if
     end do
 
-    bp = bp * au_rsun
-    bpm = bpm * au_rsun
+    bp = bp
+    bpm = bpm
             
 end
 

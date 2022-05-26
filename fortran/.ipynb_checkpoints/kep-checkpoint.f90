@@ -4,7 +4,6 @@ implicit none
 
 real*8, parameter :: pi = 4.d0 * Atan(1.d0), G = 8.887692445125634d-10
 real*8, parameter :: o3 = 1.d0 / 3.d0, o6 = 1.d0 / 6.d0, pi_o12 = Atan(1.d0) / 3.d0
-real*8, parameter :: au_rsun = 215.03215567054764
 real*8, parameter :: if3 = 1.d0 / 6.d0, if5 = 1.d0 / (6.d0 * 20), if7 = 1.d0 / (6.d0 * 20 * 42)
 real*8, parameter :: if9 = 1.d0 / (6.d0 * 20 * 42 * 72), if11 = 1.d0 / (6.d0 * 20 * 42 * 72 * 110)
 real*8, parameter :: if13 = 1.d0 / (6.d0 * 20 * 42 * 72 * 110 * 156), if15 = 1.d0 / (6.d0 * 20 * 42 * 72 * 110 * 156 * 210)
