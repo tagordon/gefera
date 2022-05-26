@@ -1,22 +1,16 @@
-.. Gefera documentation master file, created by
-   sphinx-quickstart on Mon Jul 13 21:52:36 2020.
+.. gefera documentation master file, created by
+   sphinx-quickstart on Thu May 26 16:48:54 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-gefera
+Welcome to gefera's documentation!
 ==================================
-*gefera* blah blah blah 
-
-*gefera* is in active development on 
-`GitHub <https://github.com/tagordon/specgp>`_.
 
 .. toctree::
    :maxdepth: 2
-   :caption: User Guide
+   :caption: Contents:
 
-   user/install
-   user/citation
-   user/api
+
 
 Indices and tables
 ==================
