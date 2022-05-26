@@ -3,15 +3,12 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 import gefera as gf
 
-au_r = 215.03215567054764
-
 def draw(sys, ax, t, r1, r2, ld_params=None, cmap=plt.cm.copper, fill=True):
         
     if isinstance(t, np.ndarray):
         raise Exception("Argument t should be a scalar, not an array.")
             
     x1, y1, _, x2, y2, _ = sys.kep.coords(np.array([t]), sys.pdict) 
-    x1, y1, x2, y2 = x1 * au_r, y1 * au_r, x2 * au_r, y2 * au_r
         
     b1 = plt.Circle(
         (-x1, y1),
@@ -103,7 +100,6 @@ def draw_series(sys, ax, t, r1, r2, ld_params=None, cmap=plt.cm.copper, fill=Tru
     
     for ti in t:
         x1, y1, _, x2, y2, _ = sys.kep.coords(np.array([ti]), sys.pdict) 
-        x1, y1, x2, y2 = x1 * au_r, y1 * au_r, x2 * au_r, y2 * au_r
         
         b1 = plt.Circle(
             (-x1, y1),
@@ -141,7 +137,6 @@ def animate(sys, fig, t, r1, r2, duration=5, ld_params=None, cmap=plt.cm.copper)
     ax = fig.gca()
             
     x1, y1, z1, x2, y2, z2 = sys.kep.coords(t, sys.pdict)
-    x1, y1, x2, y2 = x1 * au_r, y1 * au_r, x2 * au_r, y2 * au_r
         
     if ld_params is None:
         star = plt.Circle((0, 0), radius=1, color=cmap(1.0), fill=True)

@@ -29,7 +29,7 @@ Gefera has two components: the dynamical model which is used to compute the posi
 For the planet:
 
 ```python
-ap = 1.0			# semimajor axis in au
+ap = 215.0			# semimajor axis in stellar radii
 tp = -91.25			# starting epoch in days
 ep = 0.0			# eccentricity 
 pp = 365			# period in days
@@ -40,7 +40,7 @@ ip = 89.8 * np.pi / 180		# inclination in degrees
 and for the moon:    
 
 ```python
-am = 0.02			# semimajor axis of the moon's orbit around the planet in au
+am = 2			# semimajor axis of the moon's orbit around the planet in stellar radii
 tm = -4.2			# starting epoch in days
 em = 0.0			# eccentricity
 pm = 8				# period in days
@@ -73,7 +73,8 @@ We can then compute the light curve:
 
 ```python
 t = np.linspace(-0.6, 0.3, 10000)
-flux = sys.lightcurve(t, u1, u2, rp, rm)
+# The out-of-transit flux is set to zero by default, so we add 1 to get the normalized flux.
+flux = sys.lightcurve(t, u1, u2, rp, rm) + 1
 ```
 When plotted, the lightcurve for this system looks like this:
 ![exomoon lightcurve](https://github.com/tagordon/gefera/blob/master/notebooks/readme_plot_light.png#gh-light-mode-only)
