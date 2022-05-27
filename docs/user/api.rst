@@ -3,11 +3,11 @@
 API documentation
 =================
 
-.. autoclass:: gefera.System
+.. autoclass:: gefera.gefera.System
    :inherited-members:
 
-.. autoclass:: gefera.HierarchicalSystem
+.. autoclass:: gefera.gefera.HierarchicalSystem
    :inherited-members:
 
-.. autoclass:: gefera.ConfocalSystem
+.. autoclass:: gefera.gefera.ConfocalSystem
    :inherited-members:
