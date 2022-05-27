@@ -1,0 +1,45 @@
+:py:mod:`gefera.phot`
+=====================
+
+.. py:module:: gefera.phot
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   gefera.phot.flux
+   gefera.phot.flux_ng
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   gefera.phot.libname
+   gefera.phot.clib
+
+
+.. py:data:: libname
+   
+
+   
+
+.. py:data:: clib
+   
+
+   
+
+.. py:function:: flux(c1, c2, rp, rm, bp, bpm, cth, sth)
+
+
+.. py:function:: flux_ng(c1, c2, rp, rm, bp, bpm, cth, sth)
+
+
