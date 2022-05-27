@@ -3,10 +3,10 @@
 API documentation
 =================
 
-.. autoclass:: gefera.gefera.Orbit
+.. autoclass:: gefera.Orbit
    :inherited-members:
 
-.. autocolass"" gefera.gefera.PrimaryOrbit
+.. autocolass:: gefera.PrimaryOrbit
    :inherited-members:
 
 .. autoclass:: gefera.SatelliteOrbit
