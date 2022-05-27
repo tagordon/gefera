@@ -3,10 +3,10 @@
 API documentation
 =================
 
-.. automodule:: gefera
+.. automodule:: gefera.gefera
    :members:
 
-.. autoclass:: gefera.Orbit
+.. autoclass:: gefera.gefera.Orbit
    :inherited-members:
 
 .. autoclass:: gefera.SatelliteOrbit
