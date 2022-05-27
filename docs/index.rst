@@ -12,7 +12,7 @@ Welcome to gefera's documentation!
 
    user/install
    user/citation
-   user/api
+   autoapi/index.rst
 
 
 Indices and tables

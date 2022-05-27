@@ -1,25 +1,8 @@
 .. _api:
-
+  
 API documentation
 =================
 
-.. autoclass:: gefera.Orbit
-   :inherited-members:
+.. toctree::
 
-.. autoclass:: gefera.PrimaryOrbit
-   :inherited-members:
-
-.. autoclass:: gefera.SatelliteOrbit
-   :inherited-members:
-
-.. autoclass:: gefera.ConfocalOrbit
-   :inherited-members:
-
-.. autoclass:: gefera.System
-   :inherited-members:
-
-.. autoclass:: gefera.HierarchicalSystem
-   :inherited-members:
-
-.. autoclass:: gefera.ConfocalSystem
-   :inherited-members:
+   autoapi/gefera/index
