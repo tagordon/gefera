@@ -1,9 +1,8 @@
 version: 2
-formats: all
+
 python:
-  version: 3
   install:
-    - requires: requirements.txt
+    - requirements: docs/requirements.txt
     - method: pip
-    - path: .
+      path: .
   system_packages: true
