@@ -3,23 +3,23 @@
 API documentation
 =================
 
-.. automodule:: gefera.gefera
+.. automodule:: gefera
    :members:
 
-.. autoclass:: gefera.gefera.Orbit
+.. autoclass:: gefera.Orbit
    :inherited-members:
 
-.. autoclass:: gefera.gefera.SatelliteOrbit
+.. autoclass:: gefera.SatelliteOrbit
    :inherited-members:
 
-.. autoclass:: gefera.gefera.ConfocalOrbit
+.. autoclass:: gefera.ConfocalOrbit
    :inherited-members:
 
-.. autoclass:: gefera.gefera.System
+.. autoclass:: gefera.System
    :inherited-members:
 
-.. autoclass:: gefera.gefera.HierarchicalSystem
+.. autoclass:: gefera.HierarchicalSystem
    :inherited-members:
 
-.. autoclass:: gefera.gefera.ConfocalSystem
+.. autoclass:: gefera.ConfocalSystem
    :inherited-members:
