@@ -8,8 +8,11 @@ Welcome to gefera's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: User Guide:
 
+   user/install
+   user/citation
+   user/api
 
 
 Indices and tables
