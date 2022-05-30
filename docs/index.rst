@@ -12,7 +12,13 @@ Welcome to gefera's documentation!
 
    user/install
    user/citation
-   autoapi/gefera
+
+.. toctree::
+   :maxdepth: 1
+   :caption: API:
+
+   autoapi/gefera/orbits/index
+   autoapi/gefera/systems/index
 
 
 Indices and tables

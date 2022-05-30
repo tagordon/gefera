@@ -55,9 +55,9 @@ We can then instantiate the system as follows:
 ```python
 import gefera as gf
 
-po = gf.PrimaryOrbit(ap, tp, ep, pp, wp, ip)
-mo = gf.SatelliteOrbit(am, tm, em, pm, om, wm, im, mm)
-sys = gf.HierarchicalSystem(po, mo)
+po = gf.orbits.PrimaryOrbit(ap, tp, ep, pp, wp, ip)
+mo = gf.orbits.SatelliteOrbit(am, tm, em, pm, om, wm, im, mm)
+sys = gf.systems.HierarchicalSystem(po, mo)
 ```
 
 To compute the light curve we also need the radii of both bodies and the quadratic limb darkening parameters (right now gefera only supports quadratic limb darkening)
