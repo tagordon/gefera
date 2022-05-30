@@ -4,10 +4,10 @@ import ctypes
 import os
 import fnmatch
 
-from .kep import Kepler
 from .phot import flux, flux_ng
-
-__all__ = ['PrimaryOrbit', 'SatelliteOrbit', 'ConfocalOrbit']
+from .kep import Kepler
+from .orbits import *
+__all__ = ['HierarchicalSystem', 'ConfocalSystem']
 
 path, _ = os.path.split(__file__)
 libname = fnmatch.filter(os.listdir(path), 'conf*.so')[0]
@@ -48,102 +48,6 @@ hrchargs = [
     'm2'
 ]
 
-class Orbit:
-    
-    """Parent class of all orbits. This class does not contain
-    all the necessary attributes for all orbits. 
-    
-    Args:
-        a: Semimajor axis
-        t: Time of periastron passage
-        e: Eccentricity
-        p: Period
-        w: Argument of periastron (in radians)
-        i: Inclination (in radians)
-    """
-    
-    def __init__(self, a, t, e, p, w, i):
-        
-        self.a = a
-        self.t = t
-        self.e = e
-        self.p = p
-        self.w = w
-        self.i = i
-        
-    def pdict(self):
-        
-        return vars(self)
-    
-class PrimaryOrbit(Orbit):
-    
-    """
-    A heliocentric orbit for the primary body in the system. 
-    
-    Args:
-        a: Semimajor axis
-        t: Time of periastron passage
-        e: Eccentricity
-        p: Period
-        w: Argument of periastron (in radians)
-        i: Inclination (in radians)
-    """
-    
-    def __init__(self, a, t, e, p, w, i):
-        super().__init__(a, t, e, p, w, i)
-        
-    def pdict(self):
-        
-        return {k + '1': v for k, v in vars(self).items()}
-    
-class SatelliteOrbit(Orbit):
-    
-    """
-    The orbit of the moon around the planet.
-    
-    Args:
-        a: Semimajor axis
-        t: Time of periastron passage
-        e: Eccentricity
-        p: Period
-        o: Longitude of ascending node (in radians)
-        w: Argument of periastron (in radians)
-        i: Inclination (in radians)
-        m: Moon/planet mass ratio
-    """
-    
-    def __init__(self, a, t, e, p, o, w, i, m):
-        super().__init__(a, t, e, p, w, i)
-        self.o = o
-        self.m = m
-        
-    def pdict(self):
-        
-        return {k + '2': v for k, v in vars(self).items()}
-        
-class ConfocalOrbit(Orbit):
-    
-    """
-    A second heliocentric orbit. 
-    
-    Args:
-        a: Semimajor axis
-        t: Time of periastron passage
-        e: Eccentricity
-        p: Period
-        o: Longitude of ascending node (in radians)
-        w: Argument of periastron (in radians)
-        i: Inclination (in radians)
-    """
-    
-    def __init__(self, a, t, e, p, o, w, i):
-        super().__init__(a, t, e, p, w, i)
-        self.o = o
-        
-    def pdict(self):
-        
-        return {k + '2': v for k, v in vars(self).items()}
-        
 class System:
     
     """Base class of all systems. This class should not 
@@ -465,3 +369,4 @@ class HierarchicalSystem(System):
         self.argnames = hrchargs
         self.kep = Kepler(self.argnames, hrchlib) 
         
+

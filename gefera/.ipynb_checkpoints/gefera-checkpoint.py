@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import animation
 from timeit import default_timer as timer
 import ctypes
 import os
@@ -8,6 +10,8 @@ from .kep import Kepler
 from .phot import flux, flux_ng
 
 __all__ = ['PrimaryOrbit', 'SatelliteOrbit', 'ConfocalOrbit']
+
+au_r = 215.03215567054764
 
 path, _ = os.path.split(__file__)
 libname = fnmatch.filter(os.listdir(path), 'conf*.so')[0]
