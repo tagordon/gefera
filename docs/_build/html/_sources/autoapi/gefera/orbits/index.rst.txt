@@ -1,7 +1,7 @@
-:py:mod:`gefera.gefera`
+:py:mod:`gefera.orbits`
 =======================
 
-.. py:module:: gefera.gefera
+.. py:module:: gefera.orbits
 
 
 Module Contents
@@ -12,9 +12,9 @@ Classes
 
 .. autoapisummary::
 
-   gefera.gefera.PrimaryOrbit
-   gefera.gefera.SatelliteOrbit
-   gefera.gefera.ConfocalOrbit
+   gefera.orbits.PrimaryOrbit
+   gefera.orbits.SatelliteOrbit
+   gefera.orbits.ConfocalOrbit
 
 
 
