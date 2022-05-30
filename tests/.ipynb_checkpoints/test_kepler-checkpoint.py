@@ -151,9 +151,9 @@ def test_grad_hrch():
         t = np.linspace(0, np.max([d[3], d[9]]), 10)
         dx = 1e-8
 
-        o1 = gf.PrimaryOrbit(d[0], d[1], d[2], d[3], d[4], d[5])
-        o2 = gf.SatelliteOrbit(d[6], d[7], d[8], d[9], d[10], d[11], d[12], d[13])
-        sys = gf.HierarchicalSystem(o1, o2)
+        o1 = gf.orbits.PrimaryOrbit(d[0], d[1], d[2], d[3], d[4], d[5])
+        o2 = gf.orbits.SatelliteOrbit(d[6], d[7], d[8], d[9], d[10], d[11], d[12], d[13])
+        sys = gf.systems.HierarchicalSystem(o1, o2)
 
         bp, bpm, theta, dbp, dbpm, dtheta = sys.impacts(t, grad=True)
         dbp_fd = np.zeros_like(dbp)
