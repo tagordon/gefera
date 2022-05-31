@@ -1,4 +1,5 @@
 ![tests](https://github.com/tagordon/gefera/actions/workflows/tests.yml/badge.svg)
+[![Documentation Status](https://readthedocs.org/projects/gefera/badge/?version=latest)](https://gefera.readthedocs.io/en/latest/?badge=latest)
 
 # gefera
 
