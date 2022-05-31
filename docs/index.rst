@@ -26,6 +26,7 @@ Welcome to gefera's documentation!
    :caption: Tutorials:
 
    tutorials/kep51_demo.ipynb 
+   tutorials/moon_demo.ipynb
 
 .. only:: builder_html
 
