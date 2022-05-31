@@ -1,0 +1,56 @@
+:orphan:
+
+:py:mod:`gefera.orbits`
+=======================
+
+.. py:module:: gefera.orbits
+
+
+Module Contents
+---------------
+
+.. py:class:: PrimaryOrbit(a, t, e, p, w, i)
+
+
+
+   A heliocentric orbit for the primary body in the system.
+
+   :param a: Semimajor axis
+   :param t: Time of periastron passage
+   :param e: Eccentricity
+   :param p: Period
+   :param w: Argument of periastron (in radians)
+   :param i: Inclination (in radians)
+
+
+.. py:class:: SatelliteOrbit(a, t, e, p, o, w, i, m)
+
+
+
+   The orbit of the moon around the planet.
+
+   :param a: Semimajor axis
+   :param t: Time of periastron passage
+   :param e: Eccentricity
+   :param p: Period
+   :param o: Longitude of ascending node (in radians)
+   :param w: Argument of periastron (in radians)
+   :param i: Inclination (in radians)
+   :param m: Moon/planet mass ratio
+
+
+.. py:class:: ConfocalOrbit(a, t, e, p, o, w, i)
+
+
+
+   A second heliocentric orbit.
+
+   :param a: Semimajor axis
+   :param t: Time of periastron passage
+   :param e: Eccentricity
+   :param p: Period
+   :param o: Longitude of ascending node (in radians)
+   :param w: Argument of periastron (in radians)
+   :param i: Inclination (in radians)
+
+

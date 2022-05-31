@@ -35,7 +35,8 @@ release = '0.1'
 extensions = ['autoapi.extension',
     'sphinx.ext.coverage', 
     'sphinx.ext.napoleon',
-    'sphinx.ext.mathjax'
+    'sphinx.ext.mathjax',
+    'nbsphinx'
     ]
 
 autoapi_dirs = ['../gefera']
