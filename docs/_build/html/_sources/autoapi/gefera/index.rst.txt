@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`gefera`
-================
-
-.. py:module:: gefera
-
-
