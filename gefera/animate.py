@@ -4,6 +4,20 @@ from matplotlib import animation
 import gefera as gf
 
 def draw(sys, ax, t, r1, r2, ld_params=None, cmap=plt.cm.copper, fill=True):
+    
+    """
+    Draw the state of the system.
+    
+    Args:
+        sys (System): The system
+        ax (matplotlib.pyplot.axis): Axis on which to draw
+        t (float): Time at which to draw snapshot of system
+        r1 (float): Radius of the first body
+        r2 (float): Radius of the second body
+        ld_params (optional, float): Limb-darkening parameters for the star
+        cmap (optional, matplotlib.colors.Colormap): Colormap for coloring the star according to ld_params
+        fill (optional, bool): If true, fill transiting bodies, if false draw outlines only
+    """
         
     if isinstance(t, np.ndarray):
         raise Exception("Argument t should be a scalar, not an array.")
@@ -125,6 +139,20 @@ def draw_series(sys, ax, t, r1, r2, ld_params=None, cmap=plt.cm.copper, fill=Tru
     
 def snapshots(sys, axs, t, r1, r2, ld_params=None, cmap=plt.cm.copper, fill=True):
     
+    """
+    Draw a series of snapshots representing the system and multiple times.
+    
+    Args:
+        sys (System): The system
+        axs (list): A list of axes of length len(t) on which to plot the snapshots
+        t (array): Time at which to draw snapshot of system
+        r1 (float): Radius of the first body
+        r2 (float): Radius of the second body
+        ld_params (optional, float): Limb-darkening parameters for the star
+        cmap (optional, matplotlib.colors.Colormap): Colormap for coloring the star according to ld_params
+        fill (optional, bool): If true, fill transiting bodies, if false draw outlines only
+    """
+    
     if len(axs) != len(t):
         raise ValueError('One axis object is required for each time point.')
     
@@ -132,6 +160,22 @@ def snapshots(sys, axs, t, r1, r2, ld_params=None, cmap=plt.cm.copper, fill=True
         draw(sys, ax, ti, r1, r2, ld_params=ld_params, cmap=cmap, fill=fill)
         
 def animate(sys, fig, t, r1, r2, duration=5, ld_params=None, cmap=plt.cm.copper):
+    
+    """
+    Make an animation of the system.
+    
+    Args:
+        sys (System): The system
+        fig (matplotlib.pyplot.figure): Figure object
+        t (array): Array of times representing each frame of the animation
+        r1 (float): Radius of the first body
+        r2 (float): Radius of the second body
+        ld_params (optional, float): Limb-darkening parameters for the star
+        cmap (optional, matplotlib.colors.Colormap): Colormap for coloring the star according to ld_params
+        
+    Returns:
+        matplotlib.animation.FuncAnimation: The animation.
+    """
         
     t = np.ascontiguousarray(t)
     ax = fig.gca()

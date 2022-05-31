@@ -19,7 +19,7 @@ Welcome to gefera's documentation!
 
    autoapi/gefera/orbits/index
    autoapi/gefera/systems/index
-
+   autoapi/gefera/animate/index
 
 Indices and tables
 ==================

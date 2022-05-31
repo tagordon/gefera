@@ -68,14 +68,13 @@ class System:
     def coords(self, t):
         
         """
-        Get the coordinates of the planet and moon.
+        Get the coordinates of the two bodies.
         
         Args:
-            t: Times at which the coordinates should be computed.
+            t (array): Times at which the coordinates should be computed.
             
         Returns:
-            pc: Coorinates of the planet as a tuple of arrays (x, y, z)
-            mc: Coordinates of the moon as a tuple of arrays (x, y, z)
+            tuple: The cartesian coordinates of each body.
         """
         
         x1, y1, z1, x2, y2, z2 = self.kep.coords(t, self.pdict)
@@ -127,18 +126,16 @@ class System:
         Get the lightcurve resulting from a transit of the moon/planet system.
         
         Args: 
-            t: Times at which the flux should be computed
-            r1: Radius of the body in the PrimaryOrbit
-            r2: Radius of the body in the SecondaryOrbit or ConfocalOrbit
-            u1: The first limb-darkening parameter
-            u2: The second limb-darkening parameter
+            t (array): Times at which the flux should be computed
+            r1 (float): Radius of the body in the PrimaryOrbit
+            r2 (float): Radius of the body in the SecondaryOrbit or ConfocalOrbit
+            u1 (float): The first limb-darkening parameter
+            u2 (float): The second limb-darkening parameter
             grad (bool): If True, compute the gradient of the lightcurve.
                 Default is False. 
                 
         Returns:
-            lc: The lightcurve
-            grad: A dict containing the derivatives of the 
-                lightcurve with respect to each of the input parameters.
+            array: The lightcurve and, if grad=True, a dictionary containing the derivatives with respect to each parameter.
             
         """
         if integrate == 'simpson':
@@ -258,17 +255,20 @@ class System:
     def loglike(self, y, t, u1, u2, r1, r2, sigma, integrate=None, dt=None, grad=False):
         
         """
-        Get the log-likelihood of the lightcurve.
+        Get the log-likelihood of the lightcurve with respect to a set of observations.
         
         Args:
-            y: A vector of observations to compute the likelihood with 
+            y (array): A vector of observations to compute the likelihood with 
                 respect to. 
-            t: Times at which the flux should be computed
-            r1: Radius of the body in the PrimaryOrbit
-            r2: Radius of the body in the SecondaryOrbit or ConfocalOrbit
-            u1: The first limb-darkening parameter
-            u2: The second limb-darkening parameter
-            sigma: The standard deviation of the model
+            t (array): Times at which the flux should be computed
+            r1 (float): Radius of the body in the PrimaryOrbit
+            r2 (float): Radius of the body in the SecondaryOrbit or ConfocalOrbit
+            u1 (float): The first limb-darkening parameter
+            u2 (float): The second limb-darkening parameter
+            sigma (float): The standard deviation of the model
+            
+        Returns: 
+            float: The natural logarithm of the likelihood
         """
         
         if grad:
