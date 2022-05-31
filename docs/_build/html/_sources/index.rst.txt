@@ -29,7 +29,7 @@ Welcome to gefera's documentation!
 
 .. only:: builder_html
 
-   :download:`Kepler-51 data<tutorials/k51.txt>`
+   :download:`Kepler-51 data: <tutorials/k51.txt>`
 
 Indices and tables
 ==================

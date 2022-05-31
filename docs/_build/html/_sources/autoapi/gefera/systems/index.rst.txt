@@ -1,0 +1,154 @@
+:orphan:
+
+:py:mod:`gefera.systems`
+========================
+
+.. py:module:: gefera.systems
+
+
+Module Contents
+---------------
+
+.. py:class:: ConfocalSystem(o1, o2)
+
+
+
+   Represents a system with two bodies
+   orbiting a central star.
+
+   :param o1: The orbit of the first body
+   :type o1: PrimaryOrbit
+   :param o2: The orbit of the second body
+   :type o2: ConfocalOrbit
+
+   .. py:method:: coords(self, t)
+
+      Get the coordinates of the two bodies.
+
+      :param t: Times at which the coordinates should be computed.
+      :type t: array
+
+      :returns: The cartesian coordinates of each body.
+      :rtype: tuple
+
+
+   .. py:method:: lightcurve(self, t, u1, u2, r1, r2, grad=False, integrate=None, dt=None)
+
+      Get the lightcurve resulting from a transit of the moon/planet system.
+
+      :param t: Times at which the flux should be computed
+      :type t: array
+      :param r1: Radius of the body in the PrimaryOrbit
+      :type r1: float
+      :param r2: Radius of the body in the SecondaryOrbit or ConfocalOrbit
+      :type r2: float
+      :param u1: The first limb-darkening parameter
+      :type u1: float
+      :param u2: The second limb-darkening parameter
+      :type u2: float
+      :param grad: If True, compute the gradient of the lightcurve.
+                   Default is False.
+      :type grad: bool
+
+      :returns: The lightcurve and, if grad=True, a dictionary containing the derivatives with respect to each parameter.
+      :rtype: array
+
+
+   .. py:method:: loglike(self, y, t, u1, u2, r1, r2, sigma, integrate=None, dt=None, grad=False)
+
+      Get the log-likelihood of the lightcurve with respect to a set of observations.
+
+      :param y: A vector of observations to compute the likelihood with
+                respect to.
+      :type y: array
+      :param t: Times at which the flux should be computed
+      :type t: array
+      :param r1: Radius of the body in the PrimaryOrbit
+      :type r1: float
+      :param r2: Radius of the body in the SecondaryOrbit or ConfocalOrbit
+      :type r2: float
+      :param u1: The first limb-darkening parameter
+      :type u1: float
+      :param u2: The second limb-darkening parameter
+      :type u2: float
+      :param sigma: The standard deviation of the model
+      :type sigma: float
+
+      :returns: The natural logarithm of the likelihood
+      :rtype: float
+
+
+
+.. py:class:: HierarchicalSystem(o1, o2)
+
+
+
+   Represents a system with a primary body orbiting
+   a central star and a satellite orbiting the
+   primary body.
+
+   :param o1: The orbit of the primary
+              body around the central star
+   :type o1: PrimaryOrbit
+   :param o2: The orbit of the satellite around
+              the primary body.
+   :type o2: SatelliteOrbit
+
+   .. py:method:: coords(self, t)
+
+      Get the coordinates of the two bodies.
+
+      :param t: Times at which the coordinates should be computed.
+      :type t: array
+
+      :returns: The cartesian coordinates of each body.
+      :rtype: tuple
+
+
+   .. py:method:: lightcurve(self, t, u1, u2, r1, r2, grad=False, integrate=None, dt=None)
+
+      Get the lightcurve resulting from a transit of the moon/planet system.
+
+      :param t: Times at which the flux should be computed
+      :type t: array
+      :param r1: Radius of the body in the PrimaryOrbit
+      :type r1: float
+      :param r2: Radius of the body in the SecondaryOrbit or ConfocalOrbit
+      :type r2: float
+      :param u1: The first limb-darkening parameter
+      :type u1: float
+      :param u2: The second limb-darkening parameter
+      :type u2: float
+      :param grad: If True, compute the gradient of the lightcurve.
+                   Default is False.
+      :type grad: bool
+
+      :returns: The lightcurve and, if grad=True, a dictionary containing the derivatives with respect to each parameter.
+      :rtype: array
+
+
+   .. py:method:: loglike(self, y, t, u1, u2, r1, r2, sigma, integrate=None, dt=None, grad=False)
+
+      Get the log-likelihood of the lightcurve with respect to a set of observations.
+
+      :param y: A vector of observations to compute the likelihood with
+                respect to.
+      :type y: array
+      :param t: Times at which the flux should be computed
+      :type t: array
+      :param r1: Radius of the body in the PrimaryOrbit
+      :type r1: float
+      :param r2: Radius of the body in the SecondaryOrbit or ConfocalOrbit
+      :type r2: float
+      :param u1: The first limb-darkening parameter
+      :type u1: float
+      :param u2: The second limb-darkening parameter
+      :type u2: float
+      :param sigma: The standard deviation of the model
+      :type sigma: float
+
+      :returns: The natural logarithm of the likelihood
+      :rtype: float
+
+
+
