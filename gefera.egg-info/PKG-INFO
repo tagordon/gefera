@@ -1,6 +1,16 @@
+Metadata-Version: 2.1
+Name: gefera
+Version: 0.1
+Summary: Light curves for mutual transits of limb-darkened stars
+Home-page: http://github.com/tagordon/gefera
+Author: Tyler Gordon
+Author-email: tagordon@uw.edu
+License: MIT
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 ![tests](https://github.com/tagordon/gefera/actions/workflows/tests.yml/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/gefera/badge/?version=latest)](https://gefera.readthedocs.io/en/latest/?badge=latest)
-[![DOI](https://zenodo.org/badge/491390764.svg)](https://zenodo.org/badge/latestdoi/491390764)
 
 # gefera
 
