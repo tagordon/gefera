@@ -12,15 +12,16 @@
 
 ## Installation
 
-To install gefera begin by cloning the github repository. 
+To install gefera run 
+
+```
+pip install gefera
+```
+
+Or clone the github repository and install from the source code using pip: 
 
 ```
 git clone https://www.github.com/tagordon/gefera
-```
-
-Once the repository has downloaded cd into the main directory and install with pip.
-
-```
 cd gefera; pip install .
 ``` 
  
